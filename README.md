@@ -1,4 +1,5 @@
 # InFunityScript
  Unity Project For Novel Game
- ©FThingSoftWare 2023
- ©AmanatsuTouko 2023
+
+©FThingSoftware 2023
+©AmanatsuTouko 2023
