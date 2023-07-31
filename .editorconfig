@@ -1,0 +1,14 @@
+# .editorconfig について詳しくは、次をご覧ください https://aka.ms/editorconfigdocs
+root = true
+
+# All files
+[*]
+indent_style = space
+end_of_line=lf
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+[*.cs]
+charset = utf-8-bom

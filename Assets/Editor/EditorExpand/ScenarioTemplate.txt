@@ -1,0 +1,12 @@
+using FThingSoftware.InFunityScript;
+using Cysharp.Threading.Tasks;
+
+public class #SCRIPTNAME# : Scenario
+{
+    public override async UniTask Content()
+    {
+
+        await sys_return();
+        return;
+    }
+}
