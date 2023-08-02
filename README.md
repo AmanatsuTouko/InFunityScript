@@ -11,5 +11,12 @@
 
 4. Open This Project with UnityHub.
 
-©FThingSoftware 2023
-©AmanatsuTouko 2023
+# License
+
+## UniTask
+---- Write license this area. ----
+
+# Copyright
+
+©FThingSoftware 2023 https://twitter.com/FThingSoftware
+©AmanatsuTouko 2023 https://twitter.com/amanatsu_toko
