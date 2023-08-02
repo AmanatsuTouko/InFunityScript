@@ -19,4 +19,5 @@
 # Copyright
 
 ©FThingSoftware 2023 https://twitter.com/FThingSoftware
+
 ©AmanatsuTouko 2023 https://twitter.com/amanatsu_toko
