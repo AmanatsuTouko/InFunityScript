@@ -5,11 +5,11 @@
 
 1. [Install UnityHub](https://unity.com/ja/download).
 
-2. Install unity version "2022 3.4f1" from [This Archive Page](https://unity.com/ja/releases/editor/archive).
+2. Install unity version "2022 3.4f1" from [this archive page](https://unity.com/ja/releases/editor/archive).
 
-3. DownLoad this repository files.
+3. Download this repository files.
 
-4. Open This Project with UnityHub.
+4. Open this project with UnityHub.
 
 # License
 
