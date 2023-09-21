@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FThingSoftware.InFunityScript
 {
@@ -22,6 +23,9 @@ namespace FThingSoftware.InFunityScript
         public SaveCurrentToPlayingData saveCurrent { get; private set; }
         // ロードしたデータから画面情報を復元するコンポーネント
         public RebuildFromLoadData rebuildFromLoadData { get; private set; }
+
+        // Titleシーンからロードした際に、どのセーブデータをロードしたかを保存する
+        private int slotNumOnLoadFromTitle = 0;
 
         private void Awake()
         {
@@ -197,6 +201,27 @@ namespace FThingSoftware.InFunityScript
             
             // LOAD画面を非表示にする
             scenarioManager.GetComponent<KeyInputManager>().ExitLoad();
+        }
+
+        // Titleシーンで続きから始める際に、スロット番号Nを保存する処理
+        public void SaveSlotNumOnLoadTitle(int slotnum)
+        {
+            // N番目のデータが新規データの場合、何もしない
+            if (rebuildDatas.Each[slotnum].ScenarioName == "") return;
+            // slotnumを保存する
+            slotNumOnLoadFromTitle = slotnum;
+            // Titleシーンから遷移してきたフラグを立てる
+            Settings.LoadFromTitleScene = true;
+            // Mainシーンに移行する
+            SceneManager.LoadScene("Main");
+        }
+
+        // Titleシーンから遷移して時にデータをLoadする
+        public void StartScenarioFromTitleLoad()
+        {
+            // TitleからロードしてきたフラグをOFFにする
+            Settings.LoadFromTitleScene = false;
+            LoadAndStartScenarioFromSlotNum(slotNumOnLoadFromTitle);
         }
 
         // =======================================

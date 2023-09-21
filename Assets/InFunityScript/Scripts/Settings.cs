@@ -42,5 +42,8 @@ namespace FThingSoftware.InFunityScript
         public static int SAVE_SLOT_MAIN_TEXT_MAX_NUM_FOR_SLOT = 26;
         // 詳細画面に表示する最大文字数
         public static int SAVE_SLOT_MAIN_TEXT_MAX_NUM_FOR_DETAIL = 75;
+
+        // TitleSceneからLoadしてきたか否か
+        public static bool LoadFromTitleScene = false;
     }
 }

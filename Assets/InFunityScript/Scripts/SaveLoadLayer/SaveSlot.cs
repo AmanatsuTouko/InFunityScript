@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace FThingSoftware.InFunityScript
 {
@@ -35,6 +36,14 @@ namespace FThingSoftware.InFunityScript
         // セーブもしくはロード処理を行う
         public void OnClickSlotSaveOrLoad()
         {
+            // Titleシーンの時
+            if(SceneManager.GetActiveScene().name == "Title")
+            {
+                // ロードすべきslotnumを保存して、Mainシーンに遷移する。
+                SaveDataHolder.I.SaveSlotNumOnLoadTitle(sll.getSlotNum(slotNum));
+                return;
+            }
+
             if (sll.mode == SaveLoadLayer.MODE.SAVE)
             {
                 // セーブする

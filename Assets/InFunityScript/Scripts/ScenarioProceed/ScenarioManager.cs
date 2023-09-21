@@ -53,7 +53,10 @@ namespace FThingSoftware.InFunityScript
             // Text,Skip,Auto時の待ち時間をセーブデータから反映させる
             UpdateWaitTimeFromSaveData();
             // シナリオのスタート
-            StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
+            // TitleシーンからLoadしてきた際
+            if (Settings.LoadFromTitleScene) SaveDataHolder.I.StartScenarioFromTitleLoad();
+            // それ以外の時
+            else StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
         }
 
         // Text,Skip,Auto時の待ち時間をセーブデータから反映させる

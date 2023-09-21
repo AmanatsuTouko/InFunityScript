@@ -6,6 +6,8 @@ namespace FThingSoftware.InFunityScript
 {
     public class TitleButtonClick : MonoBehaviour
     {
+        [SerializeField] GameObject LoadLayer;
+
         // Titleシーンのボタンから呼び出す関数一覧
         // 新しく始める
         public void OnClickNewGame()
@@ -18,23 +20,26 @@ namespace FThingSoftware.InFunityScript
 
         }
 
-        // 前回の続きから始める
-        public void OnClickLoadGame()
+        // 続きから始める
+        public void OnClickContinueGame()
         {
             // 前回セーブした際の0番目のデータから復元してゲームを開始するためにContinueGameフラグをONにする
 
             // シーンを移行する
-
         }
 
-        // 続きから始める
-        public void OnClickContinueGame()
+        // 前回の続きから始める
+        public void OnClickLoadGame()
         {
             // Load画面の表示
+            LoadLayer.SetActive(true);
+            LoadLayer.GetComponent<SaveLoadLayer>().UpdateSaveSlotsDetailAll();
 
             // 選択が終わった場合に0番目のデータにディープコピーを行う
 
+
             // シーンを移行してゲームスタート
+
         }
 
         // 設定の表示
