@@ -39,7 +39,6 @@ namespace FThingSoftware.InFunityScript
 
 
             // シーンを移行してゲームスタート
-
         }
 
         // 設定の表示
