@@ -33,6 +33,9 @@ namespace FThingSoftware.InFunityScript
             if (IsInputForAuto()) SwitchAutoMode();
             if (IsInputForSkip()) SwitchSkipMode();
 
+            // 右クリックでテキストウィンドウを非表示にする
+            if (IsCancelClick()) SwichTextWindow();
+            
             // 右クリックでスキップ/オート/バックログ/設定画面を解除する
             if (IsCancelClick()) { ExitAutoMode(); ExitSkipMode(); ExitBackLog(); ExitSettings(); }
 
@@ -78,8 +81,10 @@ namespace FThingSoftware.InFunityScript
         }
 
         // スキップの切り替え
-        private void SwitchSkipMode()
+        public void SwitchSkipMode()
         {
+            // テキストウィンドウの非表示時にはスキップを実行しないようにする
+            if (!sb.isDisplayTextWindow) return;
             if (sb.isSkipping)
             {
                 ExitSkipMode();
@@ -94,6 +99,8 @@ namespace FThingSoftware.InFunityScript
         // オートの切り替え
         public void SwitchAutoMode()
         {
+            // テキストウィンドウの非表示時にはスキップを実行しないようにする
+            if (!sb.isDisplayTextWindow) return;
             if (sb.isAutoPlaying)
             {
                 ExitAutoMode();
@@ -135,8 +142,9 @@ namespace FThingSoftware.InFunityScript
         }
         private void ExitBackLog()
         {
-            sb.isDisplayBacklog = true;
-            SwitchBacklog();
+            if (!sb.isDisplayBacklog) return;
+            sb.isDisplayBacklog = false;
+            systemPanelsController.BacklogLayerSetActive(false);
         }
 
         // 設定画面への切り替え
@@ -203,6 +211,21 @@ namespace FThingSoftware.InFunityScript
             if (systemPanelsController.saveloadLayer.GetComponent<SaveLoadLayer>().mode != SaveLoadLayer.MODE.LOAD) return;
             sb.isDisplaySaveLoadPanel = false;
             systemPanelsController.LoadLayerSetActive(false);
+        }
+
+        // TextWindowLayerの表示の切り替え
+        public void SwichTextWindow()
+        {
+            if (sb.isDisplayTextWindow)
+            {
+                sb.isDisplayTextWindow = false;
+                systemPanelsController.TextWindowLayerSetActive(false);
+            }
+            else
+            {
+                sb.isDisplayTextWindow = true;
+                systemPanelsController.TextWindowLayerSetActive(true);
+            }
         }
     }
 }

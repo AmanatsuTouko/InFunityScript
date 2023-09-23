@@ -201,7 +201,7 @@ namespace FThingSoftware.InFunityScript
         // 強制ページ進行や、システム画面の表示中はクリックを検知しないようにする関数
         private bool IsClickOnWaitClick()
         {
-            return keyInput.IsClick() && sb.isWaitClick && !IsDisplaySystemPanels() || sb.isNextPageForce_WhenPressSkipOrAuto_WhileWaitClick;
+            return keyInput.IsClick() && sb.isWaitClick && !IsDisplaySystemPanels() && sb.isDisplayTextWindow || sb.isNextPageForce_WhenPressSkipOrAuto_WhileWaitClick;
         }
         private bool IsDisplaySystemPanels()
         {

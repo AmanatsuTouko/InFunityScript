@@ -28,6 +28,8 @@ namespace FThingSoftware.InFunityScript
         public bool isDisplaySettings;
         // Save/Load画面を表示しているか
         public bool isDisplaySaveLoadPanel;
+        // テキストウィンドウを表示しているか
+        public bool isDisplayTextWindow;
 
         // ボタンにマウスオーバーしているか
         public bool isMouseOverOnSystemButtons;
