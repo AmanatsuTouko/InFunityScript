@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace FThingSoftware.InFunityScript
         private ScenarioBooleans sb;
 
         // デフォルトはHOLD
-        public bool isHold = false;
+        public bool isHold = true;
 
         // 上昇後のposY
         public int maxPosY = -490;
@@ -88,7 +88,7 @@ namespace FThingSoftware.InFunityScript
         }
 
         // ホールドの切り替え
-        public void ChangeHold()
+        public void SwitchHold()
         {
             if (isHold)
             {
