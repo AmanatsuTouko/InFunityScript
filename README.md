@@ -13,7 +13,9 @@
 
 # License
 
-## UniTask
+This project file contains these Unity assets.
+
+## UniTask ver 2.3.3
 The MIT License (MIT)
 
 Copyright (c) 2019 Yoshifumi Kawai / Cysharp, Inc.
