@@ -196,7 +196,7 @@ namespace FThingSoftware.InFunityScript
                 systemPanelsController.LoadLayerSetActive(true);
             }
         }
-        private void ExitSave()
+        public void ExitSave()
         {
             // SAVE画面でない時は何もしない
             if (systemPanelsController.saveloadLayer.GetComponent<SaveLoadLayer>().mode != SaveLoadLayer.MODE.SAVE) return;
@@ -211,6 +211,12 @@ namespace FThingSoftware.InFunityScript
             if (systemPanelsController.saveloadLayer.GetComponent<SaveLoadLayer>().mode != SaveLoadLayer.MODE.LOAD) return;
             sb.isDisplaySaveLoadPanel = false;
             systemPanelsController.LoadLayerSetActive(false);
+        }
+        public void ExitSaveLoadLayer()
+        {
+            ExitSave();
+            ExitLoad();
+            sb.isMouseOverOnSystemButtons = false;
         }
 
         // TextWindowLayerの表示の切り替え

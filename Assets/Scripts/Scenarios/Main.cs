@@ -8,16 +8,10 @@ public class Main : Scenario
     {
         await sys_label("start");
 
-        // await text("", "");
-
-        await sys_call<RunMelos>();
-
-        //await sys_call<Chapter1_1>();
-
-        //await sys_call<Chapter1_2>();
-
-        //await sys_call<Chapter1_3>();
-
+        await sys_call<RunMelos_01>();
+        await sys_call<RunMelos_02>();
+        await sys_call<RunMelos_03>();
+        
         await sys_jump<Main>("start");
 
         return;
