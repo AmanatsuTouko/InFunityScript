@@ -44,9 +44,21 @@ SOFTWARE.
 
 # Material Credit
 
-This project file contains these royalty free illustrations.
+This project file contains these royalty free materials.
 
-みんちりえ（ https://min-chi.material.jp/ ）
+### Background Image
+
+- [みんちりえ](https://min-chi.material.jp/)
+
+- [きまぐれアフター](https://www5d.biglobe.ne.jp/~gakai/)
+
+### Font
+
+- [ロゴたいぷゴシック](https://cute-freefont.flop.jp/fontna_logotypegothic.html)
+
+### Icon
+
+- [Closed lock](https://icooon-mono.com/11246-カギの閉じた錠のアイコン素材-3/)
 
 # Copyright
 
