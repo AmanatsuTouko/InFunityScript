@@ -4582,7 +4582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -309.99963}
+  m_AnchoredPosition: {x: 0, y: -309.99997}
   m_SizeDelta: {x: 0, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &910831533
@@ -8469,8 +8469,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 951752374}
   m_HandleRect: {fileID: 951752373}
   m_Direction: 2
-  m_Value: -0.0000013268506
-  m_Size: 0.77909553
+  m_Value: 0
+  m_Size: 0.78703034
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12547,15 +12547,25 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1716655395}
+    - target: {fileID: 5386518155780272847, guid: 988f2e306c8b44fe2ae9674eb49a8427,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitSaveLoadLayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7005100670121406804, guid: 988f2e306c8b44fe2ae9674eb49a8427,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1716655395}
+    - target: {fileID: 7005100670121406804, guid: 988f2e306c8b44fe2ae9674eb49a8427,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwicthSaveToLoad_LoadToSave
+      objectReference: {fileID: 0}
     - target: {fileID: 8996900308593377788, guid: 988f2e306c8b44fe2ae9674eb49a8427,
         type: 3}
       propertyPath: m_Name
       value: SaveLoadLayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 8996900308593377788, guid: 988f2e306c8b44fe2ae9674eb49a8427,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

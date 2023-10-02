@@ -34,5 +34,12 @@ namespace FThingSoftware.InFunityScript
             sb.isMouseOverOnSystemButtons = false;
             image.sprite = spriteNormal;
         }
+
+        // normal,hover時の画像を更新する(SaveLoadPanel表示時にSaveLoadを切り替える際に用いる)
+        public void setNormalHoverSprite(Sprite normal, Sprite hover)
+        {
+            spriteNormal = normal;
+            spriteHover = hover;
+        }
     }
 }

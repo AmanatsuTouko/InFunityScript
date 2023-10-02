@@ -58,7 +58,7 @@ namespace FThingSoftware.InFunityScript
                 saveloadLayer.GetComponent<SaveLoadLayer>().mode = SaveLoadLayer.MODE.SAVE;
                 saveloadLayer.GetComponent<SaveLoadLayer>().UpdateSaveSlotsDetailAll();
                 saveloadLayer.GetComponent<SaveLoadLayer>().UpdatePageText();
-                saveloadLayer.GetComponent<SaveLoadLayer>().UpdateTitleAndBG();
+                saveloadLayer.GetComponent<SaveLoadLayer>().UpdateMaterialRefSaveLoadMode();
             }
         }
         // Loadレイヤーの表示と非表示の切り替え
@@ -71,7 +71,7 @@ namespace FThingSoftware.InFunityScript
                 saveloadLayer.GetComponent<SaveLoadLayer>().mode = SaveLoadLayer.MODE.LOAD;
                 saveloadLayer.GetComponent<SaveLoadLayer>().UpdateSaveSlotsDetailAll();
                 saveloadLayer.GetComponent<SaveLoadLayer>().UpdatePageText();
-                saveloadLayer.GetComponent<SaveLoadLayer>().UpdateTitleAndBG();
+                saveloadLayer.GetComponent<SaveLoadLayer>().UpdateMaterialRefSaveLoadMode();
             }
         }
     }

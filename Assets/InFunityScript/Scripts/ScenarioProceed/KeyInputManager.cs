@@ -213,6 +213,7 @@ namespace FThingSoftware.InFunityScript
                 ExitAutoMode(); ExitSkipMode();
             }
         }
+
         public void ExitSave()
         {
             // SAVE画面でない時は何もしない
@@ -229,6 +230,20 @@ namespace FThingSoftware.InFunityScript
             sb.isDisplaySaveLoadPanel = false;
             systemPanelsController.LoadLayerSetActive(false);
         }
+
+        // SaveLoadLayer表示中にSaveLoadを切り替える
+        public void SwicthSaveToLoad_LoadToSave()
+        {
+            if (systemPanelsController.saveloadLayer.GetComponent<SaveLoadLayer>().mode == SaveLoadLayer.MODE.SAVE)
+            {
+                ExitSave(); SwitchLoadPanel();
+            }
+            else
+            {
+                ExitLoad(); SwitchSavePanel();
+            }
+        }
+
         public void ExitSaveLoadLayer()
         {
             ExitSave();

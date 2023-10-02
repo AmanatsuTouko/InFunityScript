@@ -33,6 +33,14 @@ namespace FThingSoftware.InFunityScript
         [SerializeField] Sprite bgSaveImage;
         [SerializeField] Sprite bgLoadImage;
 
+        // 下部のSaveLoad切り替えボタン
+        [SerializeField] Image switchSaveLoadButtonImage;
+        [SerializeField] ButtonHover switchSaveLoadButtonButtonHover;
+        [SerializeField] Sprite saveImageNormal;
+        [SerializeField] Sprite saveImageHover;
+        [SerializeField] Sprite loadImageNormal;
+        [SerializeField] Sprite loadImageHover;
+
         // ========================
         // ページ切り替えと更新処理
         // ========================
@@ -57,18 +65,26 @@ namespace FThingSoftware.InFunityScript
         {
             pageText.text = $"{pageNum.ToString("D2")}/{pageMax.ToString("D2")}";
         }
-        // 左上のSAVE/LOAD表記と背景画像を更新する
-        public void UpdateTitleAndBG()
+
+        // SAVE,LOADのモードに応じて左上のSAVE/LOAD表記と背景画像を更新する
+        // 下部のSAVE/LOAD切り替えボタンの画像を更新する
+        public void UpdateMaterialRefSaveLoadMode()
         {
             if(mode == MODE.SAVE)
             {
                 titleImage.sprite = titleSaveImage;
                 bgImage.sprite = bgSaveImage;
+                // 下部のSAVE/LOAD切り替えボタンの画像の変更
+                switchSaveLoadButtonImage.sprite = loadImageNormal;
+                switchSaveLoadButtonButtonHover.setNormalHoverSprite(loadImageNormal, loadImageHover);
             }
             else if(mode == MODE.LOAD)
             {
                 titleImage.sprite = titleLoadImage;
                 bgImage.sprite = bgLoadImage;
+                // 下部のSAVE/LOAD切り替えボタンの画像の変更
+                switchSaveLoadButtonImage.sprite = saveImageNormal;
+                switchSaveLoadButtonButtonHover.setNormalHoverSprite(saveImageNormal, saveImageHover);
             }
         }
 
