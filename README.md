@@ -41,6 +41,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+# Material Credit
+
+This project file contains these royalty free illustrations.
+
+みんちりえ（ https://min-chi.material.jp/ ）
+
 # Copyright
 
 ©FThingSoftware 2023 https://twitter.com/FThingSoftware
