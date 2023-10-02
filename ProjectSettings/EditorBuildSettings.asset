@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/InFunityScript/Scenes/Main.unity
     guid: 49cf301dab33e1b4eb38a971cf7b74b2
+  - enabled: 1
+    path: Assets/InFunityScript/Scenes/Title.unity
+    guid: e35f68c70e665bc44af6e689fe521712
   m_configObjects: {}
