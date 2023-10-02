@@ -41,13 +41,16 @@ namespace FThingSoftware.InFunityScript
             // 右クリックで、テキストウィンドウの表示非表示を切り替え、スキップ/オート/バックログ/設定画面などを解除する
             if (IsCancelClick()) { CancelOrSwitchTextWindowOnClick(); }
 
+            // マウスホイール入力でバックログの表示
+            if (IsMouseScrollReverseInput()) { ShowBacklog(); }
+
             // Bボタンでバックログの表示/非表示の切り替え
-            if (Input.GetKeyDown(KeyCode.B) && !sb.isDisplaySettings) { SwitchBacklog(); }
+            if (Input.GetKeyDown(KeyCode.B) && !sb.isDisplaySettings && !sb.isDisplaySaveLoadPanel) { SwitchBacklog(); }
             // Nボタンで設定画面の表示/非表示の切り替え
-            if (Input.GetKeyDown(KeyCode.N) && !sb.isDisplayBacklog) { SwitchSettings(); }
+            if (Input.GetKeyDown(KeyCode.N) && !sb.isDisplayBacklog && !sb.isDisplaySaveLoadPanel) { SwitchSettings(); }
             // Kボタンでセーブ画面の表示/非表示の切り替え
             if (Input.GetKeyDown(KeyCode.K) && !sb.isDisplaySettings && !sb.isDisplayBacklog) { ExitLoad(); SwitchSavePanel(); }
-            // Lボタンでセーブ画面の表示/非表示の切り替え
+            // Lボタンでロード画面の表示/非表示の切り替え
             if (Input.GetKeyDown(KeyCode.L) && !sb.isDisplaySettings && !sb.isDisplayBacklog) { ExitSave(); SwitchLoadPanel(); }
         }
         
@@ -57,9 +60,14 @@ namespace FThingSoftware.InFunityScript
             // マウススクロールでもクリック判定をONにする
             return Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetAxis("Mouse ScrollWheel") < 0;
         }
+        private bool IsMouseScrollReverseInput()
+        {
+            // マウススクロールの逆入力で、バックログを表示できるようにする
+            return Input.GetAxis("Mouse ScrollWheel") > 0;
+        }
         private bool IsInputForSkip()
         {
-            return Input.GetKeyDown(KeyCode.LeftCommand) || Input.GetKeyDown(KeyCode.RightCommand) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl);
+            return Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.LeftCommand) || Input.GetKeyDown(KeyCode.RightCommand) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl);
         }
         private bool IsInputForAuto()
         {
@@ -74,7 +82,7 @@ namespace FThingSoftware.InFunityScript
         // システム画面（バックログ、設定画面、セーブロード画面）を表示しているかどうか
         private bool IsDisplaySystemPanel()
         {
-            return sb.isDisplayBacklog || sb.isDisplaySettings;
+            return sb.isDisplayBacklog || sb.isDisplaySettings || sb.isDisplaySaveLoadPanel;
         }
 
         // スキップの切り替え
@@ -144,6 +152,13 @@ namespace FThingSoftware.InFunityScript
             sb.isDisplayBacklog = false;
             systemPanelsController.BacklogLayerSetActive(false);
             systemPanelsController.TextWindowLayerSetActive(true);
+        }
+        private void ShowBacklog()
+        {
+            if (sb.isDisplayBacklog) return;
+            sb.isDisplayBacklog = true;
+            systemPanelsController.BacklogLayerSetActive(true);
+            systemPanelsController.TextWindowLayerSetActive(false);
         }
 
         // 設定画面への切り替え
