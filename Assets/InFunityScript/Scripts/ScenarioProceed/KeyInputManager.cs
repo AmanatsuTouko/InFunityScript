@@ -13,6 +13,11 @@ namespace FThingSoftware.InFunityScript
         // 画面表示の切り替えを行うクラス
         private SystemPanelsController systemPanelsController;
 
+        // Skip表示用オブジェクト
+        [SerializeField] private GameObject _displaySkippingObject;
+        // Auto表示用オブジェクト
+        [SerializeField] private GameObject _displayAutoplayingObject;
+
         private void Awake()
         {
             // 基本的なコマンド以外のシナリオコマンドは別ファイルに記載し、読みだすようにする
@@ -39,19 +44,14 @@ namespace FThingSoftware.InFunityScript
             // 右クリックでスキップ/オート/バックログ/設定画面を解除する
             if (IsCancelClick()) { ExitAutoMode(); ExitSkipMode(); ExitBackLog(); ExitSettings(); }
 
-            // デバッグ用
-            // 画面サイズの変更
-            if (Input.GetKeyDown(KeyCode.O)) Screen.SetResolution(1280, 720, false);
-            if (Input.GetKeyDown(KeyCode.P)) Screen.SetResolution(1920, 1080, true);
-
             // Bボタンでバックログの表示/非表示の切り替え
-            if (Input.GetKeyDown(KeyCode.B) && !sb.isDisplaySettings) { SwitchBacklog(); ExitAutoMode(); ExitSkipMode(); }
+            if (Input.GetKeyDown(KeyCode.B) && !sb.isDisplaySettings) { SwitchBacklog(); }
             // Nボタンで設定画面の表示/非表示の切り替え
-            if (Input.GetKeyDown(KeyCode.N) && !sb.isDisplayBacklog) { SwitchSettings(); ExitAutoMode(); ExitSkipMode(); }
+            if (Input.GetKeyDown(KeyCode.N) && !sb.isDisplayBacklog) { SwitchSettings(); }
             // Kボタンでセーブ画面の表示/非表示の切り替え
-            if (Input.GetKeyDown(KeyCode.K) && !sb.isDisplaySettings && !sb.isDisplayBacklog) { ExitLoad(); SwitchSavePanel(); ExitAutoMode(); ExitSkipMode(); }
+            if (Input.GetKeyDown(KeyCode.K) && !sb.isDisplaySettings && !sb.isDisplayBacklog) { ExitLoad(); SwitchSavePanel(); }
             // Lボタンでセーブ画面の表示/非表示の切り替え
-            if (Input.GetKeyDown(KeyCode.L) && !sb.isDisplaySettings && !sb.isDisplayBacklog) { ExitSave(); SwitchLoadPanel(); ExitAutoMode(); ExitSkipMode(); }
+            if (Input.GetKeyDown(KeyCode.L) && !sb.isDisplaySettings && !sb.isDisplayBacklog) { ExitSave(); SwitchLoadPanel(); }
         }
         
         public bool IsClick()
@@ -93,7 +93,7 @@ namespace FThingSoftware.InFunityScript
             {
                 sb.isSkipping = true;
                 sb.isNextPageForce_WhenPressSkipOrAuto_WhileWaitClick = true;
-                //OnSkipModeObj.SetActive(true);
+                _displaySkippingObject.SetActive(true);
             }
         }
         // オートの切り替え
@@ -109,19 +109,19 @@ namespace FThingSoftware.InFunityScript
             {
                 sb.isAutoPlaying = true;
                 sb.isNextPageForce_WhenPressSkipOrAuto_WhileWaitClick = true;
-                //OnAutoModeObj.SetActive(true);
+                _displayAutoplayingObject.SetActive(true);
             }
         }
         // スキップ/オートモード終了
         private void ExitSkipMode()
         {
             sb.isSkipping = false;
-            //OnSkipModeObj.SetActive(false);
+            _displaySkippingObject.SetActive(false);
         }
         private void ExitAutoMode()
         {
             sb.isAutoPlaying = false;
-            //OnAutoModeObj.SetActive(false);
+            _displayAutoplayingObject.SetActive(false);
         }
 
         // バックログの切り替え
@@ -136,6 +136,7 @@ namespace FThingSoftware.InFunityScript
             else
             {
                 sb.isDisplayBacklog = true;
+                ExitSkipMode(); ExitAutoMode();
                 systemPanelsController.BacklogLayerSetActive(true);
                 systemPanelsController.TextWindowLayerSetActive(false);
             }
@@ -160,6 +161,7 @@ namespace FThingSoftware.InFunityScript
             {
                 sb.isDisplaySettings = true;
                 systemPanelsController.SettingsLayerSetActive(true);
+                ExitSkipMode(); ExitAutoMode();
             }
         }
         private void ExitSettings()
@@ -180,6 +182,7 @@ namespace FThingSoftware.InFunityScript
             {
                 sb.isDisplaySaveLoadPanel = true;
                 systemPanelsController.SaveLayerSetActive(true);
+                ExitAutoMode(); ExitSkipMode();
             }
         }
         // Load画面への切り替え
@@ -194,6 +197,7 @@ namespace FThingSoftware.InFunityScript
             {
                 sb.isDisplaySaveLoadPanel = true;
                 systemPanelsController.LoadLayerSetActive(true);
+                ExitAutoMode(); ExitSkipMode();
             }
         }
         public void ExitSave()
