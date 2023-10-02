@@ -698,7 +698,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1716655395}
         m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.KeyInputManager,
           Assembly-CSharp
-        m_MethodName: SwitchBacklog
+        m_MethodName: ExitBackLog
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4582,7 +4582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -309.99982}
+  m_AnchoredPosition: {x: 0, y: -309.99963}
   m_SizeDelta: {x: 0, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &910831533
@@ -8469,8 +8469,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 951752374}
   m_HandleRect: {fileID: 951752373}
   m_Direction: 2
-  m_Value: -0.0000007961107
-  m_Size: 0.7870294
+  m_Value: -0.0000013268506
+  m_Size: 0.77909553
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8945,6 +8945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6249a0f71e38f742a277a9c24686cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _displaySkippingObject: {fileID: 1741908890}
+  _displayAutoplayingObject: {fileID: 850990055}
 --- !u!1 &1726911032
 GameObject:
   m_ObjectHideFlags: 0

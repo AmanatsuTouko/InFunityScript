@@ -38,11 +38,8 @@ namespace FThingSoftware.InFunityScript
             if (IsInputForAuto()) SwitchAutoMode();
             if (IsInputForSkip()) SwitchSkipMode();
 
-            // 右クリックでテキストウィンドウを非表示にする
-            if (IsCancelClick()) SwichTextWindow();
-            
-            // 右クリックでスキップ/オート/バックログ/設定画面を解除する
-            if (IsCancelClick()) { ExitAutoMode(); ExitSkipMode(); ExitBackLog(); ExitSettings(); }
+            // 右クリックで、テキストウィンドウの表示非表示を切り替え、スキップ/オート/バックログ/設定画面などを解除する
+            if (IsCancelClick()) { CancelOrSwitchTextWindowOnClick(); }
 
             // Bボタンでバックログの表示/非表示の切り替え
             if (Input.GetKeyDown(KeyCode.B) && !sb.isDisplaySettings) { SwitchBacklog(); }
@@ -141,11 +138,12 @@ namespace FThingSoftware.InFunityScript
                 systemPanelsController.TextWindowLayerSetActive(false);
             }
         }
-        private void ExitBackLog()
+        public void ExitBackLog()
         {
             if (!sb.isDisplayBacklog) return;
             sb.isDisplayBacklog = false;
             systemPanelsController.BacklogLayerSetActive(false);
+            systemPanelsController.TextWindowLayerSetActive(true);
         }
 
         // 設定画面への切り替え
@@ -224,7 +222,7 @@ namespace FThingSoftware.InFunityScript
         }
 
         // TextWindowLayerの表示の切り替え
-        public void SwichTextWindow()
+        public void SwitchTextWindow()
         {
             if (sb.isDisplayTextWindow)
             {
@@ -236,6 +234,21 @@ namespace FThingSoftware.InFunityScript
                 sb.isDisplayTextWindow = true;
                 systemPanelsController.TextWindowLayerSetActive(true);
             }
+        }
+
+        // 右クリックでのキャンセル処理
+        private void CancelOrSwitchTextWindowOnClick()
+        {
+            // Auto or Skip中はそれのみを解除する
+            if (sb.isSkipping || sb.isAutoPlaying){ ExitAutoMode(); ExitSkipMode(); return; }
+            // Backlog表示中はBacklogのみを非表示にする
+            if (sb.isDisplayBacklog) { ExitBackLog(); return; }
+            // Settings表示中はSettingsのみを非表示にする
+            if (sb.isDisplaySettings) { ExitSettings(); return; }
+            // Save or Load表示中はそれらのみを非表示にする
+            if (sb.isDisplaySaveLoadPanel) { ExitSave(); ExitLoad(); return; }
+            // キャンセルするものが何もなかった際に、テキストウィンドウの表示非表示を切り替える
+            SwitchTextWindow();
         }
     }
 }
