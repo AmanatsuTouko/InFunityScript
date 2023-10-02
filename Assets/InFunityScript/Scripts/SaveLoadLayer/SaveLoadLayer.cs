@@ -103,11 +103,13 @@ namespace FThingSoftware.InFunityScript
             }
         }
 
-        // キー入力でページを切り替える
+        // キー入力 マウスホイールスクロールでページを切り替える
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow)) BackPage();
             else if (Input.GetKeyDown(KeyCode.RightArrow)) NextPage();
+            else if (Input.GetAxis("Mouse ScrollWheel") > 0) BackPage();
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0) NextPage();
         }
     }
 }
