@@ -120,5 +120,13 @@ namespace FThingSoftware.InFunityScript
             await this.name(charaName);
             await this.text(text);
         }
+
+        // characterの表示
+        public async UniTask chara_show<Character>(string[] facetype, float time = 1.0f, float posx = 0, float posy = 0, bool reverse = false)
+        {
+            if (!sm.isDoTask()) return;
+            string charaName = typeof(Character).ToString();
+            await sc.CharaShow(charaName, facetype, time, posx, posy, reverse);
+        }
     }
 }
