@@ -90,11 +90,11 @@ namespace FThingSoftware.InFunityScript
             if (flag)
             {
                 Debug.LogErrorFormat("Error: Character Prefab {0} is already exist. Can't show {0} more.", charaName);
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
