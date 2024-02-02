@@ -99,6 +99,29 @@ namespace FThingSoftware.InFunityScript
             }
         }
 
+        private async UniTask AlphaDecreaceRefTime(List<Image> images, float time)
+        {
+            float alpha = 255;
+            while (true)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update);
+                float deltaAlpha = 255.0f / (time / Time.deltaTime);
+                alpha -= deltaAlpha;
+                if (alpha < 0)
+                {
+                    foreach(var image in images)
+                    {
+                        image.color = new Color32(255, 255, 255, 0);
+                    }
+                    break;
+                }
+                foreach (var image in images)
+                {
+                    image.color = new Color32(255, 255, 255, (byte)(int)alpha);
+                }
+            }
+        }
+
         // キャラクターが既にCharaLayerに存在しているか
         private bool IsAlreadyExistChara(string charaName)
         {
@@ -266,6 +289,38 @@ namespace FThingSoftware.InFunityScript
 
             // オブジェクトを削除する
             Destroy(charaObj);
+        }
+
+        public async UniTask CharaHideAll(float time)
+        {
+            // キャラクターがない場合には何もしない
+            int childCount = CharaLayer.transform.childCount;
+            if (childCount == 0)
+            {
+                return;
+            }
+
+            // 全員のオブジェクトを取得する
+            List<GameObject> charaObjs = new List<GameObject>();
+            List<Image> images = new List<Image>();
+            for (int i=0; i<childCount; i++)
+            {
+                var obj = CharaLayer.transform.GetChild(i).gameObject;
+                charaObjs.Add(obj);
+
+                var backImage = obj.transform.GetChild(0).GetComponent<Image>();
+                images.Add(backImage);
+            }
+
+            // N秒かけて透明度を下げる
+            await UniTask.Yield(PlayerLoopTiming.Update);
+            await AlphaDecreaceRefTime(images, time);
+
+            // オブジェクトを削除する
+            foreach(var obj in charaObjs)
+            {
+                Destroy(obj);
+            }
         }
     }
 }

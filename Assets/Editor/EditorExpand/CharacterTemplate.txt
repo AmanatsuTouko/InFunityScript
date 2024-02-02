@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FThingSoftware.InFunityScript;
 
 public class #SCRIPTNAME# : Character
 {
@@ -9,10 +6,10 @@ public class #SCRIPTNAME# : Character
     {
         Name = "#SCRIPTNAME#";
         SpritePath = "Character/#SCRIPTNAME#/";
-        DEFAULT_POS = new Vector2Int(0, 0);
-        DEFAULT_SCALE = new Vector2(1, 1);
-        DEFAULT_WIDTH = 800;
-        DEFAULT_HEIGHT = 400;
+        Pos = new Vector2Int(0, 0);
+        Scale = new Vector2(1, 1);
+        Width = 800;
+        Height = 400;
     }
 
     public static string[] normal = new string[] { "face_normal", "body_normal" };

@@ -142,5 +142,11 @@ namespace FThingSoftware.InFunityScript
             string charaName = typeof(Character).ToString();
             await sc.CharaHide(charaName, time);
         }
+
+        public async UniTask chara_hide_all(float time = 1.0f)
+        {
+            if (!sm.isDoTask()) return;
+            await sc.CharaHideAll(time);
+        }
     }
 }

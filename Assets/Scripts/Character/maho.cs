@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using FThingSoftware.InFunityScript;
+﻿using UnityEngine;
 
 public class maho : Character
 {

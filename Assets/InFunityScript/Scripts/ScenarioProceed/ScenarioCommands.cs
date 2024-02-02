@@ -16,7 +16,6 @@ namespace FThingSoftware.InFunityScript
         // キャラクター画像の表示や移動を行う
         public ScenarioCommandCharacter scChara { get; private set; }
 
-
         private void Awake()
         {
             sm = GetComponent<ScenarioManager>();
@@ -49,6 +48,11 @@ namespace FThingSoftware.InFunityScript
         public async UniTask CharaHide(string charaName, float time)
         {
             await scChara.CharaHide(charaName, time);
+        }
+
+        public async UniTask CharaHideAll(float time)
+        {
+            await scChara.CharaHideAll(time);
         }
     }
 }
