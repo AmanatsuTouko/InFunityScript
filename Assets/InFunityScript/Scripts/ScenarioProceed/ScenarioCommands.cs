@@ -40,5 +40,15 @@ namespace FThingSoftware.InFunityScript
         {
             await scChara.CharaShow(charaName, facetype, time, posx, posy, reverse);
         }
+
+        public async UniTask CharaFace(string charaName, string[] facetype, float time, bool reverse = false)
+        {
+            await scChara.CharaFace(charaName, facetype, time, reverse);
+        }
+
+        public async UniTask CharaHide(string charaName, float time)
+        {
+            await scChara.CharaHide(charaName, time);
+        }
     }
 }

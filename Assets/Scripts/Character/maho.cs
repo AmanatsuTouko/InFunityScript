@@ -16,4 +16,6 @@ public class maho : Character
     }
 
     public static string[] normal = new string[] { "face_normal", "body_normal" };
+
+    public static string[] angry = new string[] { "face_angry", "body_normal" };
 }

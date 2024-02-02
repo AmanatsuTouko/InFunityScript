@@ -9,13 +9,19 @@ namespace FThingSoftware.InFunityScript
 {
     public class ScenarioCommandCharacter : MonoBehaviour
     {
-        public GameObject CharacterPrefab;
-        public GameObject CharaLayer;
+        [SerializeField] GameObject CharacterPrefab;
+        [SerializeField] GameObject CharaLayer;
 
         public async UniTask CharaShow(string charaName, string[] facetype, float time, float posx = 0, float posy = 0, bool reverse = false)
         {
             // 既に同じキャラクターがCharaLayerにある場合には実行しない
-            if (IsAlreadyExistChara(charaName)) return;
+            if (IsAlreadyExistChara(charaName))
+            {
+                Debug.LogErrorFormat(
+                    $"Error: chara_show<{charaName}>({charaName}.{facetype[0]})\n" +
+                    $"Character Prefab {charaName} is already exist. Can't show {charaName} more.");
+                return;
+            }
 
             // Prefabを用いてインスタンスの作成
             GameObject prefab = Instantiate(CharacterPrefab);
@@ -30,7 +36,7 @@ namespace FThingSoftware.InFunityScript
 
             // 初期値の代入
             character.setParameter();
-            
+
             // facetypeからspriteを読みだす
             List<Sprite> sprites = character.GetSpritesFromFacetype(facetype);
             // facetypeに定義されている複数枚の画像を合成する
@@ -75,24 +81,33 @@ namespace FThingSoftware.InFunityScript
             }
         }
 
+        // n秒かけて透明度を255->0にする
+        private async UniTask AlphaDecreaceRefTime(Image image, float time)
+        {
+            float alpha = 255;
+            while (true)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update);
+                float deltaAlpha = 255.0f / (time / Time.deltaTime);
+                alpha -= deltaAlpha;
+                if (alpha < 0)
+                {
+                    image.color = new Color32(255, 255, 255, 0);
+                    break;
+                }
+                image.color = new Color32(255, 255, 255, (byte)(int)alpha);
+            }
+        }
+
         // キャラクターが既にCharaLayerに存在しているか
         private bool IsAlreadyExistChara(string charaName)
         {
-            bool flag = true;
             try
             {
                 GameObject charaNameObj = CharaLayer.transform.Find(charaName).gameObject;
-            }
-            catch (NullReferenceException e)
-            {
-                flag = false;
-            }
-            if (flag)
-            {
-                Debug.LogErrorFormat("Error: Character Prefab {0} is already exist. Can't show {0} more.", charaName);
                 return true;
             }
-            else
+            catch (NullReferenceException e)
             {
                 return false;
             }
@@ -103,7 +118,7 @@ namespace FThingSoftware.InFunityScript
         {
             // 1枚の場合はそのまま返す
             if (sprites.Count == 1) return sprites[0];
-            
+
             // 出力用Texture2Dを作成する
             Texture2D synthesisTexture = new Texture2D(sprites[0].texture.width, sprites[0].texture.height, TextureFormat.ARGB32, false);
 
@@ -184,6 +199,73 @@ namespace FThingSoftware.InFunityScript
             synthesisTexture.Apply();
 
             return synthesisTexture;
+        }
+
+        public async UniTask CharaFace(string charaName, string[] facetype, float time, bool reverse = false)
+        {
+            // キャラクターが居ない場合には生成する
+            if (!IsAlreadyExistChara(charaName))
+            {
+                Debug.LogError(
+                    $"Error: chara_face<{charaName}>({charaName}.{facetype[0]})\n" +
+                    $"Character {charaName} is not exist. Create {charaName} Character Object.");
+                await CharaShow(charaName: charaName, facetype: facetype, time: time, reverse: reverse);
+            }
+
+            // キャラクターをCanvasから探す
+            GameObject charaObj = CharaLayer.transform.Find(charaName).gameObject;
+
+            // 反転
+            // if (reverse) CharaReverse(charaName, 0));
+
+            var backImage = charaObj.transform.GetChild(0).GetComponent<Image>();
+            var frontImage = charaObj.transform.GetChild(1).GetComponent<Image>();
+
+            // FrontImageを設定する
+
+            // facetypeからspriteを読みだす
+            var character = charaObj.GetComponent<Character>();
+            List<Sprite> sprites = character.GetSpritesFromFacetype(facetype);
+            // facetypeに定義されている複数枚の画像を合成する
+            Sprite sprite = await SynthesisMultipleSprite(sprites);
+            // frontImageに合成したSpriteを代入する
+            frontImage.sprite = sprite;
+
+            // n秒かけて透明度を戻して見えるようにする
+            // 画像生成処理フレームは、1フレームの時間が長くなってしまうので1フレーム待つ
+            await UniTask.Yield(PlayerLoopTiming.Update);
+            await AlphaIncreaceRefTime(frontImage, time);
+
+            // FrontImageをBackImageに異動させる
+            backImage.sprite = frontImage.sprite;
+
+            // FrontImageを削除する
+            frontImage.sprite = null;
+            frontImage.color = new Color32(255, 255, 255, 0);
+        }
+
+        public async UniTask CharaHide(string charaName, float time)
+        {
+            // キャラクターが居ない場合には何もしない
+            if (!IsAlreadyExistChara(charaName))
+            {
+                Debug.LogError(
+                    $"Error: chara_hide<{charaName}>()\n" +
+                    $"Character {charaName} is not exist. Can't hide {charaName} Character Object.");
+                return;
+            }
+
+            // キャラクターをCanvasから探す
+            GameObject charaObj = CharaLayer.transform.Find(charaName).gameObject;
+            var backImage = charaObj.transform.GetChild(0).GetComponent<Image>();
+
+            // N秒かけて透明度を下げる
+            // 画像生成処理フレームは、1フレームの時間が長くなってしまうので1フレーム待つ
+            await UniTask.Yield(PlayerLoopTiming.Update);
+            await AlphaDecreaceRefTime(backImage, time);
+
+            // オブジェクトを削除する
+            Destroy(charaObj);
         }
     }
 }

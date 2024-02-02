@@ -128,5 +128,19 @@ namespace FThingSoftware.InFunityScript
             string charaName = typeof(Character).ToString();
             await sc.CharaShow(charaName, facetype, time, posx, posy, reverse);
         }
+
+        public async UniTask chara_face<Character>(string[] facetype, float time = 1.0f, bool reverse = false)
+        {
+            if (!sm.isDoTask()) return;
+            string charaName = typeof(Character).ToString();
+            await sc.CharaFace(charaName, facetype, time, reverse);
+        }
+
+        public async UniTask chara_hide<Character>(float time = 1.0f)
+        {
+            if (!sm.isDoTask()) return;
+            string charaName = typeof(Character).ToString();
+            await sc.CharaHide(charaName, time);
+        }
     }
 }
