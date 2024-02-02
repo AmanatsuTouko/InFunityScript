@@ -34,6 +34,51 @@ namespace FThingSoftware.InFunityScript
         // テキスト表示に何行用いたか（バックログに用いる）
         private int lineNum = 1;
 
+        // テキスト追加を行う
+        private bool _isAddText = false;
+        int _textIdx = 0;
+        string _addText = "";
+
+        int _waitFrameCount = 1;
+
+        private void FixedUpdate()
+        {
+            // テキスト追加フラグが立っている時のみ、テキストを追加していく
+            if (!_isAddText) return;
+
+            // テキストスピードの調整、指定フレーム待機
+            if (_waitFrameCount < sm.WAIT_TIME_TEXT)
+            {
+                _waitFrameCount += 1;
+                return;
+            }
+            else
+            {
+                _waitFrameCount = 1;
+            }
+
+            // テキスト更新中にクリックがあった場合は全文を表示する
+            if (sb.isStopAddingTextAndDisplayAllText)
+            {
+                sb.isStopAddingTextAndDisplayAllText = false;
+                textWindowMain.text = TextAllOfAddingText;
+
+                // テキスト追加を終了する
+                _isAddText = false;
+                return;
+            }
+
+            // テキスト追加を終了する
+            if (_textIdx >= _addText.Length)
+            {
+                _isAddText = false;
+                return;
+            }
+
+            textWindowMain.text += _addText[_textIdx].ToString();
+            _textIdx += 1;
+        }
+
         public async UniTask UpdateText(string text)
         {
             sb.isAddingText = true;
@@ -59,31 +104,13 @@ namespace FThingSoftware.InFunityScript
             // 既に入っているテキストのリセット
             textWindowMain.text = "";
 
-            // 1文字ずつ追加していく
-            int nowIndex = 0;
-            while (true)
-            {
-                for (int i = 0; i < sm.WAIT_TIME_TEXT; i++)
-                {
-                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
-                }
-                // await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            // FixedUpdate関数内で、テキスト追加を開始する
+            _textIdx = 0;
+            _addText = text;
+            _isAddText = true;
 
-                // テキスト更新中にクリックがあった場合は全文を表示する
-                if (sb.isStopAddingTextAndDisplayAllText)
-                {
-                    sb.isStopAddingTextAndDisplayAllText = false;
-                    textWindowMain.text = TextAllOfAddingText;
-                    break;
-                }
-                if (nowIndex >= text.Length)
-                {
-                    break;
-                }
-
-                textWindowMain.text += text[nowIndex].ToString();
-                nowIndex += 1;
-            }
+            // FixedUpdate関数内で、テキスト追加が終了するのを待機する
+            await UniTask.WaitWhile(() => _isAddText);
 
             sb.isWaitClick = true;
             sb.isAddingText = false;
