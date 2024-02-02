@@ -161,19 +161,23 @@ namespace FThingSoftware.InFunityScript
 
             for (int i = 0; i < pixels.Length; i++)
             {
-                var pixel = pixels[i];
+                var basePixel = pixels[i];
                 var blendPixel = blendPixels[i];
-                var baseAlpha = 1.0f - blendPixel.a;
+
+                var baseAlpha = basePixel.a - blendPixel.a;
                 var blendAlpha = blendPixel.a;
-                var r = pixel.r * baseAlpha + blendPixel.r * blendAlpha;
-                var g = pixel.g * baseAlpha + blendPixel.g * blendAlpha;
-                var b = pixel.b * baseAlpha + blendPixel.b * blendAlpha;
 
-                // alpha値
-                var a = 1.0f;
+                var r = basePixel.r * baseAlpha + blendPixel.r * blendAlpha;
+                var g = basePixel.g * baseAlpha + blendPixel.g * blendAlpha;
+                var b = basePixel.b * baseAlpha + blendPixel.b * blendAlpha;
+
+                // alpha値 加算合成
+                var a = MathF.Min(1.0f, baseAlpha + blendAlpha);
+
                 // どちらも透明度が0の時は、alpha値に0を指定する
-                if (pixel.a == 0 && blendPixel.a == 0) a = 0.0f;
+                if (basePixel.a == 0 && blendPixel.a == 0) a = 0.0f;
 
+                // 合成後のピクセルの設定
                 pixels[i] = new Color(r, g, b, a);
             }
             synthesisTexture.SetPixels(pixels);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Cysharp.Threading.Tasks;
-using System.Linq;
 
 namespace FThingSoftware.InFunityScript
 {
