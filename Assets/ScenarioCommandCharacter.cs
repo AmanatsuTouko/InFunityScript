@@ -49,7 +49,8 @@ namespace FThingSoftware.InFunityScript
             character.SetDefault();
 
             // 反転の指定がある場合
-            // if (reverse) CharaReverse(charaName, 0));
+            if (reverse) await CharaReverse(charaName, reverse, time, true);
+
             // 座標の指定があった場合
             if (!(posx == 0 && posy == 0))
             {
@@ -224,7 +225,7 @@ namespace FThingSoftware.InFunityScript
             return synthesisTexture;
         }
 
-        public async UniTask CharaFace(string charaName, string[] facetype, float time, bool reverse = false)
+        public async UniTask CharaFace(string charaName, string[] facetype, float time)
         {
             // キャラクターが居ない場合には生成する
             if (!IsAlreadyExistChara(charaName))
@@ -232,14 +233,11 @@ namespace FThingSoftware.InFunityScript
                 Debug.LogError(
                     $"Error: chara_face<{charaName}>({charaName}.{facetype[0]})\n" +
                     $"Character {charaName} is not exist. Create {charaName} Character Object.");
-                await CharaShow(charaName: charaName, facetype: facetype, time: time, reverse: reverse);
+                await CharaShow(charaName: charaName, facetype: facetype, time: time, reverse: false);
             }
 
             // キャラクターをCanvasから探す
             GameObject charaObj = CharaLayer.transform.Find(charaName).gameObject;
-
-            // 反転
-            // if (reverse) CharaReverse(charaName, 0));
 
             var backImage = charaObj.transform.GetChild(0).GetComponent<Image>();
             var frontImage = charaObj.transform.GetChild(1).GetComponent<Image>();
@@ -320,6 +318,95 @@ namespace FThingSoftware.InFunityScript
             foreach(var obj in charaObjs)
             {
                 Destroy(obj);
+            }
+        }
+
+        public async UniTask CharaReverse(string charaName, bool reverse, float time, bool clockwiseRotation)
+        {
+            // キャラクターが居ない場合には何もしない
+            if (!IsAlreadyExistChara(charaName))
+            {
+                Debug.LogError(
+                    $"Error: chara_reverse<{charaName}>()\n" +
+                    $"Character {charaName} is not exist. Can't reverse {charaName} Character Object.");
+                return;
+            }
+
+            // キャラクターをCanvasから探す
+            GameObject charaObj = CharaLayer.transform.Find(charaName).gameObject;
+            var rot = charaObj.transform.localRotation;
+            
+            // n秒かけて回転させる
+            await RotationYRefTime(charaObj.transform, reverse, time, clockwiseRotation);
+        }
+
+        // n秒かけてRotationのY軸を変化させる
+        private async UniTask RotationYRefTime(Transform targetTransform, bool reverse, float time, bool clockwiseRotation)
+        {
+            // 反転解除命令で既に通常の場合は何もしない
+            if(Mathf.Abs(targetTransform.rotation.y) == 0 && reverse == false)
+            {
+                return;
+            }
+            // 反転命令で既に反転している場合は何もしない
+            if(Mathf.Abs(targetTransform.rotation.y) == 180 && reverse == true)
+            {
+                return;
+            }
+
+            // Y軸の回転値の初期値
+            float initRotY = 0;
+            // 回転の向き
+            int minusOrPlus = 1;
+
+            // 反転命令で、右回りの場合
+            if(reverse && clockwiseRotation)
+            {
+                initRotY = 0;
+                minusOrPlus = 1;
+            }
+            // 反転命令で、左回りの場合
+            else if(reverse && !clockwiseRotation)
+            {
+                initRotY = 0;
+                minusOrPlus = -1;
+            }
+            // 反転解除命令で、右回りの場合
+            else if(!reverse && clockwiseRotation)
+            {
+                initRotY = -180;
+                minusOrPlus = 1;
+            }
+            // 反転解除命令で、左回りの場合
+            else if(!reverse && !clockwiseRotation)
+            {
+                initRotY = 180;
+                minusOrPlus = -1;
+            }
+
+            var rot = targetTransform.localRotation;
+            float rotY = initRotY;
+
+            // 累積値
+            float sumRot = 0;
+            
+            while (true)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update);
+                
+                float deltaRotY = 180.0f / (time / Time.deltaTime) * minusOrPlus;
+                rotY += deltaRotY;
+
+                // 終了条件
+                sumRot += deltaRotY;
+                if(MathF.Abs(sumRot) >= 180)
+                {
+                    rotY = reverse ? 180 : 0;
+                    targetTransform.localRotation = Quaternion.Euler(rot.x, rotY, rot.z);
+                    break;
+                }
+
+                targetTransform.localRotation = Quaternion.Euler(rot.x, rotY, rot.z);
             }
         }
     }

@@ -121,7 +121,10 @@ namespace FThingSoftware.InFunityScript
             await this.text(text);
         }
 
-        // characterの表示
+        // ==================================================================
+        // キャラクターコマンド一覧
+        // ==================================================================
+
         public async UniTask chara_show<Character>(string[] facetype, float time = 1.0f, float posx = 0, float posy = 0, bool reverse = false)
         {
             if (!sm.isDoTask()) return;
@@ -129,11 +132,11 @@ namespace FThingSoftware.InFunityScript
             await sc.CharaShow(charaName, facetype, time, posx, posy, reverse);
         }
 
-        public async UniTask chara_face<Character>(string[] facetype, float time = 1.0f, bool reverse = false)
+        public async UniTask chara_face<Character>(string[] facetype, float time = 1.0f)
         {
             if (!sm.isDoTask()) return;
             string charaName = typeof(Character).ToString();
-            await sc.CharaFace(charaName, facetype, time, reverse);
+            await sc.CharaFace(charaName, facetype, time);
         }
 
         public async UniTask chara_hide<Character>(float time = 1.0f)
@@ -147,6 +150,34 @@ namespace FThingSoftware.InFunityScript
         {
             if (!sm.isDoTask()) return;
             await sc.CharaHideAll(time);
+        }
+
+        // 回転の向きの指定
+        public enum RotateDirection
+        {
+            Right,
+            Left,
+            Auto
+        }
+
+        public async UniTask chara_reverse<Character>(bool reverse = true, float time = 1.0f, RotateDirection rotateDirection = RotateDirection.Auto)
+        {
+            if (!sm.isDoTask()) return;
+            string charaName = typeof(Character).ToString();
+
+            // 回転方向の指定がない場合に、反転時は左回り、反転解除時は右回りにする
+            bool clockwiseRotation;
+            if(rotateDirection == RotateDirection.Auto)
+            {
+                clockwiseRotation = reverse ? false : true;
+            }
+            // 指定がある場合は、右回りかどうかに変換する
+            else
+            {
+                clockwiseRotation = rotateDirection == RotateDirection.Right ? true : false; 
+            }
+
+            await sc.CharaReverse(charaName, reverse, time, clockwiseRotation);
         }
     }
 }
