@@ -7,22 +7,28 @@ namespace FThingSoftware.InFunityScript
     public class RebuildFromLoadData : MonoBehaviour
     {
         // ScenarioNameとScenarioPageの取得用
-        private ScenarioManager scenarioManager;
+        private ScenarioManager _scenarioManager;
         // mainTextとtalkerTextの取得用
-        private ScenarioCommandText scenarioCommandText;
+        private ScenarioCommandText _scenarioCommandText;
+        // Character復元用
+        private ScenarioCommandCharacter _scenarioCommandCharacter;
 
         // GameObjectの取得
         private void Awake()
         {
             GameObject scenarioManagerObject = GameObject.Find("ScenarioManager");
-            scenarioManager = scenarioManagerObject.GetComponent<ScenarioManager>();
-            scenarioCommandText = scenarioManagerObject.GetComponent<ScenarioCommandText>();
+            _scenarioManager = scenarioManagerObject.GetComponent<ScenarioManager>();
+            _scenarioCommandText = scenarioManagerObject.GetComponent<ScenarioCommandText>();
+            _scenarioCommandCharacter = scenarioManagerObject.GetComponent<ScenarioCommandCharacter>();
         }
 
         // 直前にロードしたデータからキャラクターや背景などの画面情報を復元する
         public void Rebuild()
         {
             Debug.Log("rebuild");
+
+            // シナリオ命令を実行して、復元する
+            // _scenarioCommandCharacter.CharaShow();
         }
     }
 

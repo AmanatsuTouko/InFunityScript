@@ -9,8 +9,8 @@ namespace FThingSoftware.InFunityScript
 {
     public class ScenarioCommandCharacter : MonoBehaviour
     {
-        [SerializeField] GameObject CharacterPrefab;
-        [SerializeField] GameObject CharaLayer;
+        [SerializeField] GameObject _characterPrefab;
+        public GameObject CharaLayer;
 
         public async UniTask CharaShow(string charaName, string[] facetype, float time, float posx = 0, float posy = 0, bool reverse = false)
         {
@@ -24,7 +24,7 @@ namespace FThingSoftware.InFunityScript
             }
 
             // Prefabを用いてインスタンスの作成
-            GameObject prefab = Instantiate(CharacterPrefab);
+            GameObject prefab = Instantiate(_characterPrefab);
             // 親オブジェクトをCanvasにする
             prefab.transform.SetParent(CharaLayer.transform, false);
             // オブジェクトの名前を変更する
@@ -36,6 +36,9 @@ namespace FThingSoftware.InFunityScript
 
             // 初期値の代入
             character.setParameter();
+
+            // データ保存用に、どの表情を設定しているかを記憶しておく
+            character.Images = facetype;
 
             // facetypeからspriteを読みだす
             List<Sprite> sprites = character.GetSpritesFromFacetype(facetype);
@@ -241,6 +244,9 @@ namespace FThingSoftware.InFunityScript
 
             var backImage = charaObj.transform.GetChild(0).GetComponent<Image>();
             var frontImage = charaObj.transform.GetChild(1).GetComponent<Image>();
+
+            // データ保存用に、どの表情を設定しているかを記憶しておく
+            charaObj.GetComponent<Character>().Images = facetype;
 
             // FrontImageを設定する
 
