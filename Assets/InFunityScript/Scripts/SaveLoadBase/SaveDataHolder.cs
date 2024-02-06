@@ -446,8 +446,20 @@ namespace FThingSoftware.InFunityScript
 
         // デバッグ用
         // Unityエディター上で、シナリオファイルをデバッグする際に無限にcallstackが増えてしまうので、実行前にcallstackを消す
-        public void ResetCurrentCallStack(){
+        public void ResetCurrentCallStack()
+        {
             scenarioCallStacks.Each[0].scenarioDatas.Clear();
+        }
+
+        // TitleシーンからNewGameをするときに
+        // SaveDataHolderの0番目のデータのRebuildData、CallStacksを消す
+        public void ResetDataForContinue()
+        {
+            // 初期化
+            scenarioCallStacks.Each[0].Num = 0;
+            scenarioCallStacks.Each[0].scenarioDatas.Clear();
+            // 初期化
+            rebuildDatas.Each[0] = new RebuildData();
         }
     }
 }

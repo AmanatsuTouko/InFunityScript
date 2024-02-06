@@ -59,7 +59,7 @@ namespace FThingSoftware.InFunityScript
                 SaveDataHolder.I.StartScenarioFromTitleLoad();
             }
             // 初めからを選択してTitleシーンからプレイしたとき
-            else if(Settings.StartGameFromTitleScene){
+            else if(Settings.NewGameFromTitleScene){
                 StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
             }
             // それ以外の時

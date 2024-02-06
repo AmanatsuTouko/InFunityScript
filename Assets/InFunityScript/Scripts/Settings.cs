@@ -47,6 +47,11 @@ namespace FThingSoftware.InFunityScript
         public static bool LoadFromTitleScene = false;
 
         // TitleSceneから初めからを選択したか否か
-        public static bool StartGameFromTitleScene = false;
+        public static bool NewGameFromTitleScene = false;
+
+        // シーン名
+        public static string SCENE_MAIN = "Main";
+
+        public static string SCENE_TITLE = "Title";
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FThingSoftware.InFunityScript
 {
@@ -8,16 +9,24 @@ namespace FThingSoftware.InFunityScript
     {
         [SerializeField] GameObject LoadLayer;
 
+
+        private void Start()
+        {
+            // Titleシーンから移行したときの、モードフラグをOFFにしておく
+            Settings.LoadFromTitleScene = false;
+            Settings.NewGameFromTitleScene = false;
+        }
+
         // Titleシーンのボタンから呼び出す関数一覧
         // 新しく始める
         public void OnClickNewGame()
         {
             // SaveDataHolderの0番目のデータのRebuildData、CallStacksを消す
-            
+            SaveDataHolder.I.ResetDataForContinue();
             // NewGameフラグをONにする
-
+            Settings.NewGameFromTitleScene = true;
             // シーンを移行する
-
+            SceneManager.LoadScene(Settings.SCENE_MAIN);
         }
 
         // 続きから始める
