@@ -443,5 +443,11 @@ namespace FThingSoftware.InFunityScript
             if (slotnum < 0 && slotnum >= Settings.SAVE_DATA_NUM) return "";
             return rebuildDatas.Each[slotnum].Chapter;
         }
+
+        // デバッグ用
+        // Unityエディター上で、シナリオファイルをデバッグする際に無限にcallstackが増えてしまうので、実行前にcallstackを消す
+        public void ResetCurrentCallStack(){
+            scenarioCallStacks.Each[0].scenarioDatas.Clear();
+        }
     }
 }

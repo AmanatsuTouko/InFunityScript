@@ -10,7 +10,8 @@ namespace FThingSoftware.InFunityScript
     public class ScenarioManager : MonoBehaviour
     {
         // ゲーム編集中にMainシーンで起動したとき、初めに読み込むシナリオファイル名
-        [SerializeField] string debugScenario = "Main";
+        [SerializeField] string _debugScenario = "Main";
+        [SerializeField] int _debugScenarioPage = 0;
 
         // 現在再生しているシナリオコンポーネント
         private Scenario playingScenarioComponent;
@@ -54,9 +55,22 @@ namespace FThingSoftware.InFunityScript
             UpdateWaitTimeFromSaveData();
             // シナリオのスタート
             // TitleシーンからLoadしてきた際
-            if (Settings.LoadFromTitleScene) SaveDataHolder.I.StartScenarioFromTitleLoad();
+            if (Settings.LoadFromTitleScene){
+                SaveDataHolder.I.StartScenarioFromTitleLoad();
+            }
+            // 初めからを選択してTitleシーンからプレイしたとき
+            else if(Settings.StartGameFromTitleScene){
+                StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
+            }
             // それ以外の時
-            else StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
+            // 主にUnityエディターからデバッグ用に実行した時
+            else{
+# if UNITY_EDITOR
+                // callStackをリセットしてからスタート
+                SaveDataHolder.I.ResetCurrentCallStack();
+                StartScenario(_debugScenario, _debugScenarioPage);                
+# endif
+            }
         }
 
         // Text,Skip,Auto時の待ち時間をセーブデータから反映させる

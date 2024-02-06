@@ -45,5 +45,8 @@ namespace FThingSoftware.InFunityScript
 
         // TitleSceneからLoadしてきたか否か
         public static bool LoadFromTitleScene = false;
+
+        // TitleSceneから初めからを選択したか否か
+        public static bool StartGameFromTitleScene = false;
     }
 }
