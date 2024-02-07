@@ -13,14 +13,17 @@ namespace FThingSoftware.InFunityScript
 
         // テキストウィンドウへの表示とバックログへの追加
         public ScenarioCommandText scText { get; private set; }
+        // 選択肢ボタンの表示を行う
+        public ScenarioCommandSelectButton scSelectButton {get; private set;}
         // キャラクター画像の表示や移動を行う
         public ScenarioCommandCharacter scChara { get; private set; }
-
+        
         private void Awake()
         {
             sm = GetComponent<ScenarioManager>();
             sb = GetComponent<ScenarioBooleans>();
             scText = GetComponent<ScenarioCommandText>();
+            scSelectButton = GetComponent<ScenarioCommandSelectButton>();
             scChara = GetComponent<ScenarioCommandCharacter>();
         }
 
@@ -32,6 +35,17 @@ namespace FThingSoftware.InFunityScript
         public async UniTask UpdateTalker(string name)
         {
             await scText.UpdateTalker(name);
+        }
+
+        // SelectButton
+        public async UniTask SelectButtonShow(string text, string scenarioName, string labelName)
+        {
+            await scSelectButton.SelectButtonShow(text, scenarioName, labelName);
+        }
+
+        public async UniTask SelectButtonWaitClick()
+        {
+            await scSelectButton.SelectButtonWaitClick();
         }
 
         // Character

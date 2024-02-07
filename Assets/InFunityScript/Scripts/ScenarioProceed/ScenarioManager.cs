@@ -363,5 +363,12 @@ namespace FThingSoftware.InFunityScript
         {
             return pageNum;
         }
+
+        // シナリオをストップする
+        // 選択肢ボタンの表示後などに、進行をストップする際に用いる
+        public void CancelScenarioProceed()
+        {
+            playingScenarioComponent.tokenSource.Cancel();
+        }
     }
 }

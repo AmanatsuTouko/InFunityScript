@@ -5,8 +5,7 @@ public class RunMelos_01 : Scenario
 {
     public override async UniTask Content()
     {
-        await chara_show<maho>(maho.normal, reverse:true);
-        await chara_face<maho>(maho.angry);
+        await text("真帆", "ところでさ、走れメロスってどんな話だったっけ？");
 
         await text("", "メロスは激怒した。必ず、かの邪智暴虐じゃちぼうぎゃくの王を除かなければならぬと決意した。");
         await text("", "メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。");

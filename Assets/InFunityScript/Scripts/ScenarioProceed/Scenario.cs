@@ -105,6 +105,24 @@ namespace FThingSoftware.InFunityScript
             // sys_labelの後にnowaitの命令があった場合に、実行されてしまうのを防ぐ
             await UniTask.Yield(PlayerLoopTiming.Update, token);
         }
+
+        // ==================================================================
+        // 選択肢ボタンコマンド
+        // ==================================================================
+
+        public async UniTask select_button_show<Scenario>(string text, string labelName = "")
+        {
+            if (!sm.isDoTask()) return;
+            string scenarioName = typeof(Scenario).ToString();
+            await nowait(sc.SelectButtonShow(text, scenarioName, labelName));
+        }
+
+        public async UniTask select_button_waitclick()
+        {
+            if (!sm.isDoTask()) return;
+            await nowait(sc.SelectButtonWaitClick());
+        }
+
         
         // ==================================================================
         // シナリオコマンド一覧
@@ -140,27 +158,27 @@ namespace FThingSoftware.InFunityScript
         {
             if (!sm.isDoTask()) return;
             string charaName = typeof(Character).ToString();
-            await sc.CharaShow(charaName, facetype, time, posx, posy, reverse);
+            await nowait(sc.CharaShow(charaName, facetype, time, posx, posy, reverse));
         }
 
         public async UniTask chara_face<Character>(string[] facetype, float time = 1.0f)
         {
             if (!sm.isDoTask()) return;
             string charaName = typeof(Character).ToString();
-            await sc.CharaFace(charaName, facetype, time);
+            await nowait(sc.CharaFace(charaName, facetype, time));
         }
 
         public async UniTask chara_hide<Character>(float time = 1.0f)
         {
             if (!sm.isDoTask()) return;
             string charaName = typeof(Character).ToString();
-            await sc.CharaHide(charaName, time);
+            await nowait(sc.CharaHide(charaName, time));
         }
 
         public async UniTask chara_hide_all(float time = 1.0f)
         {
             if (!sm.isDoTask()) return;
-            await sc.CharaHideAll(time);
+            await nowait(sc.CharaHideAll(time));
         }
 
         // 回転の向きの指定
@@ -188,7 +206,7 @@ namespace FThingSoftware.InFunityScript
                 clockwiseRotation = rotateDirection == RotateDirection.Right ? true : false; 
             }
 
-            await sc.CharaReverse(charaName, reverse, time, clockwiseRotation);
+            await nowait(sc.CharaReverse(charaName, reverse, time, clockwiseRotation));
         }
     }
 }
