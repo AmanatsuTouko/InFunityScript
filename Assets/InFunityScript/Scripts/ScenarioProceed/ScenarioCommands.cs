@@ -47,7 +47,7 @@ namespace FThingSoftware.InFunityScript
         {
             await scSelectButton.SelectButtonWaitClick();
         }
-
+        
         // Character
         public async UniTask CharaShow(string charaName, string[] facetype, float time, float posx = 0, float posy = 0, bool reverse = false)
         {

@@ -8,9 +8,6 @@ public class Main : Scenario
         await sys_label("start");
 
         await sys_call<SelectButtonTest>();
-        await text("callの前1");
-        await text("callの前2");
-        await text("callの前3");
 
         await sys_call<RunMelos_01>();
         await sys_call<RunMelos_02>();

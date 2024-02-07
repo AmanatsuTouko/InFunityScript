@@ -21,6 +21,7 @@ public class SelectButtonTest : Scenario
         await text("真帆", "ね！駅前にできたクレープ屋さん、一緒に行かない？");
 
         // 選択肢表示、分岐開始
+        // await select_button_start();
         await select_button_show<SelectButtonTest>("今日行こう！", Label.Today.ToString());
         await select_button_show<SelectButtonTest>("明日行こう！", Label.Tomorrow.ToString());
         await select_button_show<SelectButtonTest>("来週行こう！", Label.NextWeek.ToString());

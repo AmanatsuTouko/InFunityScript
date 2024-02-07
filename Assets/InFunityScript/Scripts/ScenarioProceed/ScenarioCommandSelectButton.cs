@@ -16,6 +16,9 @@ namespace FThingSoftware.InFunityScript
         // 選択肢ボタンのクリック後にジャンプする必要があるため
         private ScenarioManager _scenarioManager;
 
+        // 選択肢ボタンを配置している状態か否か
+        private bool _isSettingSelectButton = false;
+
         private void Awake()
         {
             _scenarioManager = GetComponent<ScenarioManager>();
@@ -75,6 +78,9 @@ namespace FThingSoftware.InFunityScript
                 int yPos = _selectButtonPosY[selectButtonCount - 1][i];
                 buttonTransforms[i].localPosition = new Vector3(0, yPos, 0);
             }
+
+            // 配置状態をOFFにする
+            _isSettingSelectButton = false;
 
             // UniTaskをキャンセルする
             _scenarioManager.CancelScenarioProceed();

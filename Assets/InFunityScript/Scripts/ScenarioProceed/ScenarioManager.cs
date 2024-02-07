@@ -182,6 +182,26 @@ namespace FThingSoftware.InFunityScript
             }
         }
 
+        // 選択肢ボタン関連
+        public bool isDoTaskOfSelectButton()
+        {
+            // ラベル探索中は実行しない
+            if (sb.isGettingLabel)
+            {
+                return false;
+            }
+            // ロード時は実行しないようにする
+            if (remainSkipNum > 0)
+            {
+                return false;
+            }
+            // それ以外の時は実行する
+            else
+            {
+                return true;
+            }
+        }
+
 
         // クリックしたら終了するタスク
         public async UniTask WaitClick(UniTask task)
