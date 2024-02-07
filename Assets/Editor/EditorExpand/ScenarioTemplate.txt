@@ -5,6 +5,7 @@ public class #SCRIPTNAME# : Scenario
 {
     public override async UniTask Content()
     {
+        // ここからシナリオ命令を記述
 
         await sys_return();
         return;

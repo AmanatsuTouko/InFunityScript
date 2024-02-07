@@ -488,5 +488,17 @@ namespace FThingSoftware.InFunityScript
             // 初期化
             _rebuildDatas.Each[0] = new RebuildData();
         }
+
+        // Scenarioファイルからユーザー定義変数を書き換えできるようにする
+        public DeveloperDefineVariable DevDefVariable{
+            get 
+            {
+                return _developerVariables.Each[0];
+            }
+            set
+            {
+                _developerVariables.Each[0] = value;
+            }
+        }
     }
 }

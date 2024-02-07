@@ -17,6 +17,17 @@ namespace FThingSoftware.InFunityScript
         // UniTaskのキャンセル用のトークン
         public CancellationTokenSource tokenSource;
         public CancellationToken token;
+
+        // ユーザー定義変数を変更できるようにしておく
+
+        public DeveloperDefineVariable variable{
+            get{
+                return SaveDataHolder.I.DevDefVariable;
+            } 
+            set{
+                SaveDataHolder.I.DevDefVariable = value;
+            }
+        }
         
         public void SetScenarioManagerAndCommands(ScenarioManager sm, ScenarioCommands sc)
         {
