@@ -203,7 +203,7 @@ namespace FThingSoftware.InFunityScript
             SaveJsonToLocalStorage();
         }
         // スロット番号Nからデータをロードしてゲームを再生する
-        public void LoadAndStartScenarioFromSlotNum(int slotnum)
+        public async void LoadAndStartScenarioFromSlotNum(int slotnum)
         {
             // N番目のデータが新規データの場合、何もしない
             if (_rebuildDatas.Each[slotnum].ScenarioName == "") return;
@@ -211,15 +211,18 @@ namespace FThingSoftware.InFunityScript
             // N番目のデータから現在のデータにデータを上書きする
             DeepCopyFromSlotNumToCurrent(slotnum);
             // 復元データから表示キャラクターや背景情報などを復元する
-            _rebuildFromLoadData.Rebuild();
+            await _rebuildFromLoadData.RebuildAsync();
+
+            GameObject scenarioManager = GameObject.Find("ScenarioManager");
+
             // 復元データからシナリオ名と進行ページを取得する
             string scenarioName = _rebuildDatas.Each[PlayingDataSlotNum].ScenarioName;
             int scenarioPage = _rebuildDatas.Each[PlayingDataSlotNum].ScenarioPage;
+            
             // ScenarioManagerのシナリオ進行をストップし
             // ScenarioManagerで新しくシナリオをスタートする
             // 進行ページが0以外の時は-1をしてシナリオをスタートさせる
             scenarioPage = (scenarioPage == 0 ? 0 : scenarioPage -2 );
-            GameObject scenarioManager = GameObject.Find("ScenarioManager");
             scenarioManager.GetComponent<ScenarioManager>().StartScenario(scenarioName, scenarioPage);
             
             // LOAD画面を非表示にする

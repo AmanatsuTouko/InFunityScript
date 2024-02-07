@@ -13,6 +13,8 @@ namespace FThingSoftware.InFunityScript
         private ScenarioCommandText _scenarioCommandText;
         // Character復元用
         private ScenarioCommandCharacter _scenarioCommandCharacter;
+        // SelectButton復元用
+        private ScenarioCommandSelectButton _scenarioCommandSelectButton;
 
         // GameObjectの取得
         public void Init()
@@ -22,6 +24,7 @@ namespace FThingSoftware.InFunityScript
                 _scenarioManager = scenarioManagerObject.GetComponent<ScenarioManager>();
                 _scenarioCommandText = scenarioManagerObject.GetComponent<ScenarioCommandText>();
                 _scenarioCommandCharacter = scenarioManagerObject.GetComponent<ScenarioCommandCharacter>();
+                _scenarioCommandSelectButton = scenarioManagerObject.GetComponent<ScenarioCommandSelectButton>();
             }
         }
 
@@ -32,13 +35,14 @@ namespace FThingSoftware.InFunityScript
             await RebuildAsync();
         }
 
-        private async UniTask RebuildAsync(){
+        public async UniTask RebuildAsync(){
             // 画面のリセット
             // キャラクターの全削除
             await _scenarioCommandCharacter.CharaHideAll(0);
             // 画像の全削除
             
             // 選択肢の全削除
+            await _scenarioCommandSelectButton.DeleteSelectButtonAll();
 
 
             // 削除情報 同期の為、1フレーム待機する
@@ -46,6 +50,9 @@ namespace FThingSoftware.InFunityScript
 
             // 復元データの読み出し
             RebuildData rebuildData = SaveDataHolder.I.GetPlayingRebuildData();
+
+            // テキストの復元
+            await _scenarioCommandText.RebuildTextAndTalker(rebuildData.TextTalker, rebuildData.TextMain);
 
             // キャラクターの復元
             foreach(var chara in rebuildData.DisplayCharas)

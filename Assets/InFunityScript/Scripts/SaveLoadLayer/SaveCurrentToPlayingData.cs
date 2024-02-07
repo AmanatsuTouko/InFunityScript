@@ -14,6 +14,9 @@ namespace FThingSoftware.InFunityScript
         // 表示しているキャラクターの保存
         private ScenarioCommandCharacter _scenarioCommandCharacter;
 
+        // 表示している選択肢ボタンの保存
+        private ScenarioCommandSelectButton _scenarioCommandSelectButton;
+
         // GameObjectの取得
         public void Init()
         {
@@ -22,6 +25,7 @@ namespace FThingSoftware.InFunityScript
                 _scenarioManager = scenarioManagerObject.GetComponent<ScenarioManager>();
                 _scenarioCommandText = scenarioManagerObject.GetComponent<ScenarioCommandText>();
                 _scenarioCommandCharacter = scenarioManagerObject.GetComponent<ScenarioCommandCharacter>();
+                _scenarioCommandSelectButton = scenarioManagerObject.GetComponent<ScenarioCommandSelectButton>();
             }
         }
 
@@ -67,6 +71,10 @@ namespace FThingSoftware.InFunityScript
             // 表示している画像の保存
 
             // カメラの状態の保存
+
+            // 選択肢ボタンの初期化と保存
+            rebuildData.DisplaySelectButtons.Clear();
+            rebuildData.DisplaySelectButtons = GetDisplaySelectButtons();
         }
 
         // キャラクターの検索と保存用のデータの作成
@@ -99,6 +107,35 @@ namespace FThingSoftware.InFunityScript
             }
 
             return displayCharas;
+        }
+
+        private List<DisplaySelectButton> GetDisplaySelectButtons()
+        {
+            var displaySelectButtons = new List<DisplaySelectButton>();
+            var selectButtonLayerObj = _scenarioCommandSelectButton._selectButtonLayer;
+
+            // 選択肢ボタンがない場合は何もしない
+            int buttonCount = selectButtonLayerObj.transform.childCount;
+            if(buttonCount == 0)
+            {
+                return displaySelectButtons;
+            }
+
+            for(int i=0; i<buttonCount; i++)
+            {
+                SelectButton selectButton = selectButtonLayerObj.transform.GetChild(i).gameObject.GetComponent<SelectButton>();
+
+                // 保存するためのデータに整形する
+                var button = new DisplaySelectButton();
+                button.Text = selectButton.Text;
+                button.Scene = selectButton.ScenarioName;
+                button.Label = selectButton.LabelName;
+
+                // 追加
+                displaySelectButtons.Add(button);
+            }
+
+            return displaySelectButtons;
         }
     }
 }

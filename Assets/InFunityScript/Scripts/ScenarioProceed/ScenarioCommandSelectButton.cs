@@ -11,7 +11,7 @@ namespace FThingSoftware.InFunityScript
     public class ScenarioCommandSelectButton : MonoBehaviour
     {
         [SerializeField] GameObject _selectButtonPrefab;
-        [SerializeField] GameObject _selectButtonLayer;
+        public GameObject _selectButtonLayer;
 
         // 選択肢ボタンのクリック後にジャンプする必要があるため
         private ScenarioManager _scenarioManager;
@@ -27,11 +27,15 @@ namespace FThingSoftware.InFunityScript
         public async UniTask SelectButtonShow(string text, string scenarioName, string labelName)
         {
             // instanceの生成
-            GameObject selectButton = Instantiate(_selectButtonPrefab);
+            GameObject selectButtonObj = Instantiate(_selectButtonPrefab);
             // 親オブジェクトの設定
-            selectButton.transform.SetParent(_selectButtonLayer.transform, false);
+            selectButtonObj.transform.SetParent(_selectButtonLayer.transform, false);
+
+            // テキストの代入と、データの仮保存
+            var selectButton = selectButtonObj.GetComponent<SelectButton>();
+            selectButton.Init(text, scenarioName, labelName);
             // テキストの代入
-            selectButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
+            // selectButtonObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
 
             // クリック時に実行する関数の設定
             selectButton.GetComponent<Button>().onClick.AddListener( async () => 
@@ -86,7 +90,7 @@ namespace FThingSoftware.InFunityScript
             _scenarioManager.CancelScenarioProceed();
         }
 
-        private async UniTask DeleteSelectButtonAll()
+        public async UniTask DeleteSelectButtonAll()
         {
             // 子オブジェクトを取得して全削除
             foreach(Transform transform in _selectButtonLayer.transform)

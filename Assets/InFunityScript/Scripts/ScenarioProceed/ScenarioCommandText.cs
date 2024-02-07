@@ -214,5 +214,14 @@ namespace FThingSoftware.InFunityScript
                 backlogTextMain.text = maintext;
             }
         }
+
+        // データロード時に、原状復帰のために用いる
+        public async UniTask RebuildTextAndTalker(string talker, string mainText)
+        {
+            textWindowTalker.text = talker;
+            TalkerName = talker;
+            textWindowMain.text = mainText;
+            TextAllOfAddingText = mainText;
+        }
     }
 }
