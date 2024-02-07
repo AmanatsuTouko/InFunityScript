@@ -57,16 +57,19 @@ namespace FThingSoftware.InFunityScript
             // シナリオのスタート
             switch (Settings.LoadMode)
             {
-                // TitleシーンからLoadしてきた際
-                case Settings.LOAD_MODE.LOAD:
-                    SaveDataHolder.I.StartScenarioFromTitleLoad();
-                    break;
-
-                // 初めからを選択してTitleシーンからプレイしたとき
+                // Titleシーンから
+                // 初めからを選択したとき
                 case Settings.LOAD_MODE.NEW_GAME:
                     StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
                     break;
-
+                // 続きからを選択したとき
+                case Settings.LOAD_MODE.CONTINUE:
+                    SaveDataHolder.I.StartScenarioContinueMode();
+                    break;
+                // Loadしてきたとき
+                case Settings.LOAD_MODE.LOAD:
+                    SaveDataHolder.I.StartScenarioLoadMode();
+                    break;
                 // それ以外の時
                 default:
                 // 主にUnityエディターからデバッグ用に実行した時
@@ -77,6 +80,9 @@ namespace FThingSoftware.InFunityScript
                 # endif
                     break;
             }
+            
+            // Titleからどのモードを選択してシーン移行したかを初期化する
+            Settings.LoadMode = Settings.LOAD_MODE.UNDEFINED;
         }
 
         // Text,Skip,Auto時の待ち時間をセーブデータから反映させる

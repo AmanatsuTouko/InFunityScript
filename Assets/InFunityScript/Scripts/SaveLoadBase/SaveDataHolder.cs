@@ -232,11 +232,15 @@ namespace FThingSoftware.InFunityScript
         }
 
         // Titleシーンから遷移して時にデータをLoadする
-        public void StartScenarioFromTitleLoad()
+        public void StartScenarioLoadMode()
         {
-            // TitleからロードしてきたフラグをOFFにする
-            Settings.LoadMode = Settings.LOAD_MODE.UNDEFINED;
             LoadAndStartScenarioFromSlotNum(slotNumOnLoadFromTitle);
+        }
+
+        // 続きからを選択した場合に、0番目のデータを読みだしてスタートする
+        public void StartScenarioContinueMode()
+        {
+            LoadAndStartScenarioFromSlotNum(0);
         }
 
         // =======================================
@@ -383,11 +387,11 @@ namespace FThingSoftware.InFunityScript
             }
             catch (FileNotFoundException e)
             {
-                Debug.LogErrorFormat("Error: Image File {0} is not exist.", filePath);
+                Debug.LogErrorFormat("{0} : Image File {1} is not exist.", e, filePath);
             }
             catch (UnauthorizedAccessException e)
             {
-                Debug.LogErrorFormat("UnauthorizedAccessException: Access to the path {0} is denied.", filePath);
+                Debug.LogErrorFormat("{0} : Access to the path {1} is denied.", e, filePath);
             }
             return screenshotSprite;
         }

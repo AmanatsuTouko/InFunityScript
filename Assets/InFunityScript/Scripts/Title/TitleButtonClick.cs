@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace FThingSoftware.InFunityScript
 {
@@ -9,11 +10,31 @@ namespace FThingSoftware.InFunityScript
     {
         [SerializeField] GameObject LoadLayer;
 
-
-        private void Start()
+        [Header("Buttons")]
+        [SerializeField] Button _newgameButton;
+        [SerializeField] Button _loadgameButton;
+        [SerializeField] Button _continuegameButton;
+        [SerializeField] Button _settingsDisplayButton;
+        [SerializeField] Button _licenseDisplayButton;
+        [SerializeField] Button _exitgameButton;
+        
+        private void Awake()
         {
+            // ボタンクリック時の挙動の設定
+            RegisterOnClickButtonMethod();
             // Titleシーンから移行したときの、モードフラグをOFFにしておく
             Settings.LoadMode = Settings.LOAD_MODE.UNDEFINED;
+        }
+
+        // ボタンクリック時の挙動の設定を行う
+        private void RegisterOnClickButtonMethod()
+        {
+            _newgameButton.onClick.AddListener( () => OnClickNewGame() );
+            _loadgameButton.onClick.AddListener( () => OnClickLoadGame() );
+            _continuegameButton.onClick.AddListener( () => OnClickContinueGame() );
+            _settingsDisplayButton.onClick.AddListener( () => OnClickDisplaySettings() );
+            _licenseDisplayButton.onClick.AddListener( () => OnClickDisplayLicense() );
+            _exitgameButton.onClick.AddListener( () => OnClickExitGame() );
         }
 
         // Titleシーンのボタンから呼び出す関数一覧
@@ -28,15 +49,7 @@ namespace FThingSoftware.InFunityScript
             SceneManager.LoadScene(Settings.SCENE_MAIN);
         }
 
-        // 続きから始める
-        public void OnClickContinueGame()
-        {
-            // 前回セーブした際の0番目のデータから復元してゲームを開始するためにContinueGameフラグをONにする
-
-            // シーンを移行する
-        }
-
-        // 前回の続きから始める
+        // セーブデータをロードして続きから始める
         public void OnClickLoadGame()
         {
             // Load画面の表示
@@ -47,6 +60,15 @@ namespace FThingSoftware.InFunityScript
 
 
             // シーンを移行してゲームスタート
+        }
+
+        //  前回の続きから始める
+        public void OnClickContinueGame()
+        {
+            // 前回セーブした際の0番目のデータから復元してゲームを開始するためにContinueGameフラグをONにする
+            Settings.LoadMode = Settings.LOAD_MODE.CONTINUE;
+            // シーンを移行する
+            SceneManager.LoadScene(Settings.SCENE_MAIN);
         }
 
         // 設定の表示

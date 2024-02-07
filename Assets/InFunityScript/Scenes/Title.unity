@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -559,20 +559,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 271560501}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 651683609}
-        m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.TitleButtonClick,
-          Assembly-CSharp
-        m_MethodName: OnClickContinueGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &271560501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,20 +743,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 307048080}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 651683609}
-        m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.TitleButtonClick,
-          Assembly-CSharp
-        m_MethodName: OnClickDisplaySettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &307048080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,20 +1137,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 548164867}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 651683609}
-        m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.TitleButtonClick,
-          Assembly-CSharp
-        m_MethodName: OnClickExitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &548164867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,6 +1232,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadLayer: {fileID: 1360901860}
+  _newgameButton: {fileID: 1066510031}
+  _loadgameButton: {fileID: 1382417011}
+  _continuegameButton: {fileID: 271560500}
+  _settingsDisplayButton: {fileID: 307048079}
+  _licenseDisplayButton: {fileID: 1053659211}
+  _exitgameButton: {fileID: 548164866}
 --- !u!1001 &730638690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1565,20 +1532,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1053659212}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 651683609}
-        m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.TitleButtonClick,
-          Assembly-CSharp
-        m_MethodName: OnClickDisplayLicense
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1053659212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,20 +1655,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1066510032}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 651683609}
-        m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.TitleButtonClick,
-          Assembly-CSharp
-        m_MethodName: OnClickNewGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1066510032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1844,14 +1785,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayingDataSlotNum: 0
-  rebuildDatas:
+  _rebuildDatas:
     Each: []
-  scenarioCallStacks:
+  _scenarioCallStacks:
     Each: []
-  developerVariables:
+  _developerVariables:
     Each: []
-  userSettings:
-    TextSpeed: 50
+  _userSettings:
+    TextSpeed: 17
     SkipWaitTime: 50
     AutoWaitTime: 50
     VolumeMaster: 100
@@ -2023,20 +1964,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1382417012}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 651683609}
-        m_TargetAssemblyTypeName: FThingSoftware.InFunityScript.TitleButtonClick,
-          Assembly-CSharp
-        m_MethodName: OnClickLoadGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1382417012
 MonoBehaviour:
   m_ObjectHideFlags: 0
