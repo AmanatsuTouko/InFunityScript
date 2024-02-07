@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4582,7 +4582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -310.00003}
+  m_AnchoredPosition: {x: 0, y: -271.33194}
   m_SizeDelta: {x: 0, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &910831533
@@ -8525,8 +8525,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 951752374}
   m_HandleRect: {fileID: 951752373}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.7832082
+  m_Value: -0.16812213
+  m_Size: 0.6876358
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8905,7 +8905,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6351a637ec82e7341b326a01265b8959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugScenario: Main
+  _debugScenario: Main
+  _debugScenarioPage: 0
   pageNum: 0
 --- !u!4 &1716655390
 Transform:

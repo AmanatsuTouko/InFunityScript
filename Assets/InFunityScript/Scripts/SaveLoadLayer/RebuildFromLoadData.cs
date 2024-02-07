@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace FThingSoftware.InFunityScript
@@ -25,12 +26,53 @@ namespace FThingSoftware.InFunityScript
         }
 
         // 直前にロードしたデータからキャラクターや背景などの画面情報を復元する
-        public void Rebuild()
+        public async void Rebuild()
         {
             Debug.Log("rebuild");
+            await RebuildAsync();
+        }
 
-            // シナリオ命令を実行して、復元する
-            // _scenarioCommandCharacter.CharaShow();
+        private async UniTask RebuildAsync(){
+            // 画面のリセット
+            // キャラクターの全削除
+            await _scenarioCommandCharacter.CharaHideAll(0);
+            // 画像の全削除
+            
+            // 選択肢の全削除
+
+
+            // 削除情報 同期の為、1フレーム待機する
+            await UniTask.Yield();
+
+            // 復元データの読み出し
+            RebuildData rebuildData = SaveDataHolder.I.GetPlayingRebuildData();
+
+            // キャラクターの復元
+            foreach(var chara in rebuildData.DisplayCharas)
+            {
+                string name = chara.Name;
+                string[] face = chara.Images;
+                Vector3 pos = chara.Pos;
+                bool reverse = chara.Reverse;
+                // シナリオ命令を実行して、復元する
+                await _scenarioCommandCharacter.CharaShow(name, face, 0, pos.x, pos.y, reverse);
+            }
+
+            // 背景の復元
+
+
+            // 画像の復元
+
+
+            // BGMの復元
+
+
+            // カメラの復元
+
+
+            // 選択肢の復元
+
+
         }
     }
 

@@ -57,8 +57,11 @@ namespace FThingSoftware.InFunityScript
             // 座標の指定があった場合
             if (!(posx == 0 && posy == 0))
             {
-                RectTransform transform = prefab.GetComponent<RectTransform>();
-                transform.anchoredPosition += new Vector2(posx, posy);
+                Transform transform = prefab.GetComponent<Transform>();
+                transform.localPosition = new Vector3(posx, posy, 0);
+
+                // RectTransform transform = prefab.GetComponent<RectTransform>();
+                // transform.anchoredPosition += new Vector2(posx, posy);
             }
 
             // n秒かけて透明度を戻して見えるようにする

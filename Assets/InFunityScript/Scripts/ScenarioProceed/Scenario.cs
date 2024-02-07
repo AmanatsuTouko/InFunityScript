@@ -19,7 +19,7 @@ namespace FThingSoftware.InFunityScript
         public CancellationToken token;
 
         // ユーザー定義変数を変更できるようにしておく
-
+        // await sys_code( () => variable.love_girl += 1 ); のような形で使う
         public DeveloperDefineVariable variable{
             get{
                 return SaveDataHolder.I.DevDefVariable;

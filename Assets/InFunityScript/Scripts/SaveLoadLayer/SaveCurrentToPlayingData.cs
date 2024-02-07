@@ -93,7 +93,7 @@ namespace FThingSoftware.InFunityScript
                 displayChara.Images = character.Images;
                 displayChara.Pos = new Vector3(character.Pos.x, character.Pos.y, 0);
                 displayChara.Scale = character.Scale;
-                displayChara.Reverse = Mathf.Abs(charaObj.transform.localRotation.y) == 180 ? true : false;
+                displayChara.Reverse = Mathf.Abs(charaObj.transform.localRotation.y) == 1 ? true : false;
 
                 displayCharas.Add(displayChara);
             }
