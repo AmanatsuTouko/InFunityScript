@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace FThingSoftware.InFunityScript
@@ -19,19 +20,35 @@ namespace FThingSoftware.InFunityScript
         private void Awake()
         {
             image = GetComponent<Image>();
-            sb = GameObject.Find("ScenarioManager").GetComponent<ScenarioBooleans>();
+
+            // Mainシーンにおいてのみ、ScenarioManagerの参照を取得する
+            if(SceneManager.GetActiveScene().name == Settings.SCENE_MAIN)
+            {
+                sb = GameObject.Find("ScenarioManager").GetComponent<ScenarioBooleans>();
+            }
+        }
+
+        private bool isMainScene()
+        {
+            return SceneManager.GetActiveScene().name == Settings.SCENE_MAIN;
         }
 
         // マウスホバー時を検出して、クリック時にテキストが進まないようにする
         // マウスホバー時と、ホバーがはずれた時に画像を入れ替える
         public void UserMouseOver()
         {
-            sb.isMouseOverOnSystemButtons = true;
+            if(isMainScene())
+            {
+                sb.isMouseOverOnSystemButtons = true;
+            }
             image.sprite = spriteHover;
         }
         public void UserMouseExit()
         {
-            sb.isMouseOverOnSystemButtons = false;
+            if(isMainScene())
+            {
+                sb.isMouseOverOnSystemButtons = false;
+            }
             image.sprite = spriteNormal;
         }
 

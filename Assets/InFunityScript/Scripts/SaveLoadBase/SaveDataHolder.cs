@@ -48,7 +48,7 @@ namespace FThingSoftware.InFunityScript
             _rebuildFromLoadData = GetComponent<RebuildFromLoadData>();
 
             // シーン読み込みごとに初期化する関数の設定
-            SceneManager.sceneLoaded += InitWhenSceneLoad;
+            InitWhenSceneLoad(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
 
         void InitWhenSceneLoad(Scene nextScene, LoadSceneMode mode)
