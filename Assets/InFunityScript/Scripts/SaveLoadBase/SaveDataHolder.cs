@@ -14,9 +14,13 @@ namespace FThingSoftware.InFunityScript
 
         // 保持するデータ変数
         [SerializeField] private int PlayingDataSlotNum = 0;
+        // 復元用データ(配置しているキャラクターや背景など)
         [SerializeField] private RebuildDatas _rebuildDatas;
+        // callstack
         [SerializeField] private ScenarioCallStacks _scenarioCallStacks;
+        // ユーザー定義変数
         [SerializeField] private DeveloperDefineVariables _developerVariables;
+        // プレイヤーの設定パラメータ(音量やテキストスピードなど)
         [SerializeField] private UserSettings _userSettings;
 
         // 現在のゲームデータを保存するコンポーネント
@@ -168,9 +172,13 @@ namespace FThingSoftware.InFunityScript
         // 指定したスロット番号に現在保持しているデータをディープコピーする（SAVE処理用）
         public void DeepCopyFromCurrentToSlotNum(int slotnum)
         {
+            // 復元用データ
             _rebuildDatas.Each[slotnum] = _rebuildDatas.Each[PlayingDataSlotNum].DeepCopy();
             _rebuildDatas.Each[slotnum].Num = slotnum;
+            // callstask
             _scenarioCallStacks.Each[slotnum] = _scenarioCallStacks.Each[PlayingDataSlotNum].DeepCopy();
+            _scenarioCallStacks.Each[slotnum].Num = slotnum;
+            // ユーザー定義変数
             _developerVariables.Each[slotnum] = _developerVariables.Each[PlayingDataSlotNum].DeepCopy();
         }
         
