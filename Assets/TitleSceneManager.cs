@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FThingSoftware.InFunityScript;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,7 @@ public class TitleSceneManager : MonoBehaviour
     // BackButtonをクリックしたときの挙動を設定する
     private void OnClickBackButton()
     {
+        // レイヤーを非表示にする
         _loadLayer.SetActive(false);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -57,6 +58,12 @@ namespace FThingSoftware.InFunityScript
         {
             spriteNormal = normal;
             spriteHover = hover;
+        }
+
+        // オブジェクトが非表示の時、Hover状態を解除する
+        private void OnDisable()
+        {
+            UserMouseExit();
         }
     }
 }
