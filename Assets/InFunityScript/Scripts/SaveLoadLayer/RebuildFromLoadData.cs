@@ -14,12 +14,14 @@ namespace FThingSoftware.InFunityScript
         private ScenarioCommandCharacter _scenarioCommandCharacter;
 
         // GameObjectの取得
-        private void Awake()
+        public void Init()
         {
             GameObject scenarioManagerObject = GameObject.Find("ScenarioManager");
-            _scenarioManager = scenarioManagerObject.GetComponent<ScenarioManager>();
-            _scenarioCommandText = scenarioManagerObject.GetComponent<ScenarioCommandText>();
-            _scenarioCommandCharacter = scenarioManagerObject.GetComponent<ScenarioCommandCharacter>();
+            if(scenarioManagerObject != null){
+                _scenarioManager = scenarioManagerObject.GetComponent<ScenarioManager>();
+                _scenarioCommandText = scenarioManagerObject.GetComponent<ScenarioCommandText>();
+                _scenarioCommandCharacter = scenarioManagerObject.GetComponent<ScenarioCommandCharacter>();
+            }
         }
 
         // 直前にロードしたデータからキャラクターや背景などの画面情報を復元する

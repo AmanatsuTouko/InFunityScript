@@ -14,15 +14,15 @@ namespace FThingSoftware.InFunityScript
 
         // 保持するデータ変数
         [SerializeField] private int PlayingDataSlotNum = 0;
-        [SerializeField] private RebuildDatas rebuildDatas;
-        [SerializeField] private ScenarioCallStacks scenarioCallStacks;
-        [SerializeField] private DeveloperDefineVariables developerVariables;
-        [SerializeField] private UserSettings userSettings;
+        [SerializeField] private RebuildDatas _rebuildDatas;
+        [SerializeField] private ScenarioCallStacks _scenarioCallStacks;
+        [SerializeField] private DeveloperDefineVariables _developerVariables;
+        [SerializeField] private UserSettings _userSettings;
 
         // 現在のゲームデータを保存するコンポーネント
-        public SaveCurrentToPlayingData saveCurrent { get; private set; }
+        public SaveCurrentToPlayingData _saveCurrent { get; private set; }
         // ロードしたデータから画面情報を復元するコンポーネント
-        public RebuildFromLoadData rebuildFromLoadData { get; private set; }
+        public RebuildFromLoadData _rebuildFromLoadData { get; private set; }
 
         // Titleシーンからロードした際に、どのセーブデータをロードしたかを保存する
         private int slotNumOnLoadFromTitle = 0;
@@ -44,17 +44,32 @@ namespace FThingSoftware.InFunityScript
             }
 
             // 同じGameObjectに付与されたコンポーネントの取得
-            saveCurrent = GetComponent<SaveCurrentToPlayingData>();
-            rebuildFromLoadData = GetComponent<RebuildFromLoadData>();
+            _saveCurrent = GetComponent<SaveCurrentToPlayingData>();
+            _rebuildFromLoadData = GetComponent<RebuildFromLoadData>();
+
+            // シーン読み込みごとに初期化する関数の設定
+            SceneManager.sceneLoaded += InitWhenSceneLoad;
+        }
+
+        void InitWhenSceneLoad(Scene nextScene, LoadSceneMode mode)
+        {
+            // 参照をMainシーンで読み込みごとに再取得するようにする
+            if(nextScene.name == Settings.SCENE_MAIN){
+                _saveCurrent.Init();
+                _rebuildFromLoadData.Init();
+            }
+
+            // 再度設定しておく
+            SceneManager.sceneLoaded += InitWhenSceneLoad;
         }
 
         // Localsストレージからjsonファイルを読み込んでそれぞれの変数に代入する
         private void LoadJsonFromLocalStorage()
         {
-            rebuildDatas = JsonSaveLoader<RebuildDatas>.Load(Settings.SAVE_FILE_NAME_REBUILD_DATA);
-            scenarioCallStacks = JsonSaveLoader<ScenarioCallStacks>.Load(Settings.SAVE_FILE_NAME_SCENARIO_CALLSTACK);
-            developerVariables = JsonSaveLoader<DeveloperDefineVariables>.Load(Settings.SAVE_FILE_NAME_DEVELOPER_DEFINE_DICT);
-            userSettings = JsonSaveLoader<UserSettings>.Load(Settings.SAVE_FILE_NAME_USER_SETTINGS);
+            _rebuildDatas = JsonSaveLoader<RebuildDatas>.Load(Settings.SAVE_FILE_NAME_REBUILD_DATA);
+            _scenarioCallStacks = JsonSaveLoader<ScenarioCallStacks>.Load(Settings.SAVE_FILE_NAME_SCENARIO_CALLSTACK);
+            _developerVariables = JsonSaveLoader<DeveloperDefineVariables>.Load(Settings.SAVE_FILE_NAME_DEVELOPER_DEFINE_DICT);
+            _userSettings = JsonSaveLoader<UserSettings>.Load(Settings.SAVE_FILE_NAME_USER_SETTINGS);
 
             // セーブデータが存在しないときは新しくデータを作成してjsonファイルとして保存する
             CreateNewFileAndSaveJsonFile();
@@ -63,55 +78,55 @@ namespace FThingSoftware.InFunityScript
         // セーブデータをjsonファイルに保存する
         private void SaveJsonToLocalStorage()
         {
-            JsonSaveLoader<RebuildDatas>.Save(rebuildDatas, Settings.SAVE_FILE_NAME_REBUILD_DATA);
-            JsonSaveLoader<ScenarioCallStacks>.Save(scenarioCallStacks, Settings.SAVE_FILE_NAME_SCENARIO_CALLSTACK);
-            JsonSaveLoader<DeveloperDefineVariables>.Save(developerVariables, Settings.SAVE_FILE_NAME_DEVELOPER_DEFINE_DICT);
-            JsonSaveLoader<UserSettings>.Save(userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
+            JsonSaveLoader<RebuildDatas>.Save(_rebuildDatas, Settings.SAVE_FILE_NAME_REBUILD_DATA);
+            JsonSaveLoader<ScenarioCallStacks>.Save(_scenarioCallStacks, Settings.SAVE_FILE_NAME_SCENARIO_CALLSTACK);
+            JsonSaveLoader<DeveloperDefineVariables>.Save(_developerVariables, Settings.SAVE_FILE_NAME_DEVELOPER_DEFINE_DICT);
+            JsonSaveLoader<UserSettings>.Save(_userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
         }
 
         // セーブデータが存在しないときは新しくデータを作成してjsonファイルとして保存する
         private void CreateNewFileAndSaveJsonFile() 
         {
-            if (rebuildDatas == null)
+            if (_rebuildDatas == null)
             {
                 // セーブデータ数分複製してリストに入れる
-                rebuildDatas = new RebuildDatas();
+                _rebuildDatas = new RebuildDatas();
                 for (int i = 0; i < Settings.SAVE_DATA_NUM; i++)
                 {
                     RebuildData data = new RebuildData();
                     data.Num = i;
-                    rebuildDatas.Each.Add(data);
+                    _rebuildDatas.Each.Add(data);
                 }
-                JsonSaveLoader<RebuildDatas>.Save(rebuildDatas, Settings.SAVE_FILE_NAME_REBUILD_DATA);
+                JsonSaveLoader<RebuildDatas>.Save(_rebuildDatas, Settings.SAVE_FILE_NAME_REBUILD_DATA);
             }
-            if (scenarioCallStacks == null)
+            if (_scenarioCallStacks == null)
             {
                 // セーブデータ数分複製してリストに入れる
-                scenarioCallStacks = new ScenarioCallStacks();
+                _scenarioCallStacks = new ScenarioCallStacks();
                 for (int i = 0; i < Settings.SAVE_DATA_NUM; i++)
                 {
                     ScenarioCallStack data = new ScenarioCallStack();
                     data.Num = i;
-                    scenarioCallStacks.Each.Add(data);
+                    _scenarioCallStacks.Each.Add(data);
                 }
-                JsonSaveLoader<ScenarioCallStacks>.Save(scenarioCallStacks, Settings.SAVE_FILE_NAME_SCENARIO_CALLSTACK);
+                JsonSaveLoader<ScenarioCallStacks>.Save(_scenarioCallStacks, Settings.SAVE_FILE_NAME_SCENARIO_CALLSTACK);
             }
-            if (developerVariables == null)
+            if (_developerVariables == null)
             {
                 // セーブデータ数分複製してリストに入れる
-                developerVariables = new DeveloperDefineVariables();
+                _developerVariables = new DeveloperDefineVariables();
                 for (int i = 0; i < Settings.SAVE_DATA_NUM; i++)
                 {
                     DeveloperDefineVariable data = new DeveloperDefineVariable();
-                    developerVariables.Each.Add(data);
+                    _developerVariables.Each.Add(data);
                 }
-                JsonSaveLoader<DeveloperDefineVariables>.Save(developerVariables, Settings.SAVE_FILE_NAME_DEVELOPER_DEFINE_DICT);
+                JsonSaveLoader<DeveloperDefineVariables>.Save(_developerVariables, Settings.SAVE_FILE_NAME_DEVELOPER_DEFINE_DICT);
             }
-            if (userSettings == null)
+            if (_userSettings == null)
             {
                 // 音量などはゲーム全体で持つ値なので複製しない
-                userSettings = new UserSettings();
-                JsonSaveLoader<UserSettings>.Save(userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
+                _userSettings = new UserSettings();
+                JsonSaveLoader<UserSettings>.Save(_userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
             }
         }
 
@@ -119,31 +134,31 @@ namespace FThingSoftware.InFunityScript
         private void ResetSaveDataOnSaveDataHolder()
         {
             // セーブデータ数分複製してリストに入れる
-            rebuildDatas = new RebuildDatas();
+            _rebuildDatas = new RebuildDatas();
             for (int i = 0; i < Settings.SAVE_DATA_NUM; i++)
             {
                 RebuildData data = new RebuildData();
                 data.Num = i;
-                rebuildDatas.Each.Add(data);
+                _rebuildDatas.Each.Add(data);
             }
             // セーブデータ数分複製してリストに入れる
-            scenarioCallStacks = new ScenarioCallStacks();
+            _scenarioCallStacks = new ScenarioCallStacks();
             for (int i = 0; i < Settings.SAVE_DATA_NUM; i++)
             {
                 ScenarioCallStack data = new ScenarioCallStack();
                 data.Num = i;
-                scenarioCallStacks.Each.Add(data);
+                _scenarioCallStacks.Each.Add(data);
             }
             // セーブデータ数分複製してリストに入れる
-            developerVariables = new DeveloperDefineVariables();
+            _developerVariables = new DeveloperDefineVariables();
             for (int i = 0; i < Settings.SAVE_DATA_NUM; i++)
             {
                 DeveloperDefineVariable data = new DeveloperDefineVariable();
-                developerVariables.Each.Add(data);
+                _developerVariables.Each.Add(data);
             }
             // 音量などはゲーム全体で持つ値なので複製しない
-            userSettings = new UserSettings();
-            JsonSaveLoader<UserSettings>.Save(userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
+            _userSettings = new UserSettings();
+            JsonSaveLoader<UserSettings>.Save(_userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
         }
 
         // ================
@@ -153,27 +168,27 @@ namespace FThingSoftware.InFunityScript
         // 指定したスロット番号に現在保持しているデータをディープコピーする（SAVE処理用）
         public void DeepCopyFromCurrentToSlotNum(int slotnum)
         {
-            rebuildDatas.Each[slotnum] = rebuildDatas.Each[PlayingDataSlotNum].DeepCopy();
-            rebuildDatas.Each[slotnum].Num = slotnum;
-            scenarioCallStacks.Each[slotnum] = scenarioCallStacks.Each[PlayingDataSlotNum].DeepCopy();
-            developerVariables.Each[slotnum] = developerVariables.Each[PlayingDataSlotNum].DeepCopy();
+            _rebuildDatas.Each[slotnum] = _rebuildDatas.Each[PlayingDataSlotNum].DeepCopy();
+            _rebuildDatas.Each[slotnum].Num = slotnum;
+            _scenarioCallStacks.Each[slotnum] = _scenarioCallStacks.Each[PlayingDataSlotNum].DeepCopy();
+            _developerVariables.Each[slotnum] = _developerVariables.Each[PlayingDataSlotNum].DeepCopy();
         }
         
         // 指定したスロット番号から現在保持しているデータにディープコピーする
         public void DeepCopyFromSlotNumToCurrent(int slotnum)
         {
-            rebuildDatas.Each[PlayingDataSlotNum] = rebuildDatas.Each[slotnum].DeepCopy();
-            rebuildDatas.Each[PlayingDataSlotNum].Num = PlayingDataSlotNum;
-            scenarioCallStacks.Each[PlayingDataSlotNum] = scenarioCallStacks.Each[slotnum].DeepCopy();
-            scenarioCallStacks.Each[PlayingDataSlotNum].Num = PlayingDataSlotNum;
-            developerVariables.Each[PlayingDataSlotNum] = developerVariables.Each[slotnum].DeepCopy();
+            _rebuildDatas.Each[PlayingDataSlotNum] = _rebuildDatas.Each[slotnum].DeepCopy();
+            _rebuildDatas.Each[PlayingDataSlotNum].Num = PlayingDataSlotNum;
+            _scenarioCallStacks.Each[PlayingDataSlotNum] = _scenarioCallStacks.Each[slotnum].DeepCopy();
+            _scenarioCallStacks.Each[PlayingDataSlotNum].Num = PlayingDataSlotNum;
+            _developerVariables.Each[PlayingDataSlotNum] = _developerVariables.Each[slotnum].DeepCopy();
         }
 
         // スロット番号Nに現在のデータをセーブする
         public void SaveCurrentToSlotNum(int slotnum)
         {
             // 現在のゲームの状態をセーブデータとして保存できるように0番目のデータに更新する
-            saveCurrent.SaveCurrent(slotnum);
+            _saveCurrent.SaveCurrent(slotnum);
             // 0番目に置いてあるデータをN番目にディープコピーする
             DeepCopyFromCurrentToSlotNum(slotnum);
             // Jsonファイルとしてローカルストレージに書き込む
@@ -183,15 +198,15 @@ namespace FThingSoftware.InFunityScript
         public void LoadAndStartScenarioFromSlotNum(int slotnum)
         {
             // N番目のデータが新規データの場合、何もしない
-            if (rebuildDatas.Each[slotnum].ScenarioName == "") return;
+            if (_rebuildDatas.Each[slotnum].ScenarioName == "") return;
 
             // N番目のデータから現在のデータにデータを上書きする
             DeepCopyFromSlotNumToCurrent(slotnum);
             // 復元データから表示キャラクターや背景情報などを復元する
-            rebuildFromLoadData.Rebuild();
+            _rebuildFromLoadData.Rebuild();
             // 復元データからシナリオ名と進行ページを取得する
-            string scenarioName = rebuildDatas.Each[PlayingDataSlotNum].ScenarioName;
-            int scenarioPage = rebuildDatas.Each[PlayingDataSlotNum].ScenarioPage;
+            string scenarioName = _rebuildDatas.Each[PlayingDataSlotNum].ScenarioName;
+            int scenarioPage = _rebuildDatas.Each[PlayingDataSlotNum].ScenarioPage;
             // ScenarioManagerのシナリオ進行をストップし
             // ScenarioManagerで新しくシナリオをスタートする
             // 進行ページが0以外の時は-1をしてシナリオをスタートさせる
@@ -207,11 +222,11 @@ namespace FThingSoftware.InFunityScript
         public void SaveSlotNumOnLoadTitle(int slotnum)
         {
             // N番目のデータが新規データの場合、何もしない
-            if (rebuildDatas.Each[slotnum].ScenarioName == "") return;
+            if (_rebuildDatas.Each[slotnum].ScenarioName == "") return;
             // slotnumを保存する
             slotNumOnLoadFromTitle = slotnum;
             // Titleシーンから遷移してきたフラグを立てる
-            Settings.LoadFromTitleScene = true;
+            Settings.LoadMode = Settings.LOAD_MODE.LOAD;
             // Mainシーンに移行する
             SceneManager.LoadScene("Main");
         }
@@ -220,7 +235,7 @@ namespace FThingSoftware.InFunityScript
         public void StartScenarioFromTitleLoad()
         {
             // TitleからロードしてきたフラグをOFFにする
-            Settings.LoadFromTitleScene = false;
+            Settings.LoadMode = Settings.LOAD_MODE.UNDEFINED;
             LoadAndStartScenarioFromSlotNum(slotNumOnLoadFromTitle);
         }
 
@@ -230,7 +245,7 @@ namespace FThingSoftware.InFunityScript
         // 現在のデータを読みだして、更新に用いる
         public RebuildData GetPlayingRebuildData()
         {
-            return rebuildDatas.Each[0];
+            return _rebuildDatas.Each[0];
         }
 
         // =======================================
@@ -246,16 +261,16 @@ namespace FThingSoftware.InFunityScript
             // 最大を20,最小を1FixedFrameとする
             // セーブデータには、20(最大に高速)、1(最大に高速)として保存するため変換を行い
             // 20を引いた絶対値に1を足す
-            return Mathf.Abs(userSettings.TextSpeed - Settings.TEXTSPEED_MAX_FIXED_FRAME_NUM) + Settings.TEXTSPEED_MIN_FIXED_FRAME_NUM;
+            return Mathf.Abs(_userSettings.TextSpeed - Settings.TEXTSPEED_MAX_FIXED_FRAME_NUM) + Settings.TEXTSPEED_MIN_FIXED_FRAME_NUM;
         }
         public int GetWaitTimeSkipToScenarioManagerConvert()
         {
-            int time = userSettings.SkipWaitTime;
+            int time = _userSettings.SkipWaitTime;
             return (int)((100.0f - time) * 10.0f);
         }
         public int GetWaitTimeAutoToScenarioManagerConvert()
         {
-            int time = userSettings.AutoWaitTime;
+            int time = _userSettings.AutoWaitTime;
             return (int)(time * 10.0f * 5.0f);
         }
 
@@ -263,12 +278,12 @@ namespace FThingSoftware.InFunityScript
         public void AddScenarioCallStack(string scenarioName, int pageNum)
         {
             ScenarioData scenarioData = new ScenarioData(scenarioName, pageNum);
-            scenarioCallStacks.Each[PlayingDataSlotNum].scenarioDatas.Add(scenarioData);
+            _scenarioCallStacks.Each[PlayingDataSlotNum].scenarioDatas.Add(scenarioData);
         }
         // 現在読み込んでいるセーブスロットのCallStackの末尾を取得して返す
         public ScenarioData PopScenarioCallStack()
         {
-            List<ScenarioData> scenarioDatas = scenarioCallStacks.Each[PlayingDataSlotNum].scenarioDatas;
+            List<ScenarioData> scenarioDatas = _scenarioCallStacks.Each[PlayingDataSlotNum].scenarioDatas;
             // コールスタックが空の場合にはnullを返す
             if (scenarioDatas.Count == 0) return null;
             int lastIndex = scenarioDatas.Count - 1;
@@ -287,59 +302,59 @@ namespace FThingSoftware.InFunityScript
         // Get
         public int GetTextSpeedToSettingLayerVolumeAdjust()
         {
-            return userSettings.TextSpeed;
+            return _userSettings.TextSpeed;
         }
         public int GetWaitTimeSkipToSettingLayerVolumeAdjust()
         {
-            return userSettings.SkipWaitTime;
+            return _userSettings.SkipWaitTime;
         }
         public int GetWaitTimeAutoToSettingLayerVolumeAdjust()
         {
-            return userSettings.AutoWaitTime;
+            return _userSettings.AutoWaitTime;
         }
         public int GetVolumeMasterToSettingLayerVolumeAdjust()
         {
-            return userSettings.VolumeMaster;
+            return _userSettings.VolumeMaster;
         }
         public int GetVolumeBGMToSettingLayerVolumeAdjust()
         {
-            return userSettings.VolumeBGM;
+            return _userSettings.VolumeBGM;
         }
         public int GetVolumeSEToSettingLayerVolumeAdjust()
         {
-            return userSettings.VolumeSE;
+            return _userSettings.VolumeSE;
         }
         // Set
         public void SetTextSpeedFromSettingLayerVolumeAdjust(int textSpeedFrame)
         {
-            userSettings.TextSpeed = textSpeedFrame;
+            _userSettings.TextSpeed = textSpeedFrame;
         }
         public void SetWaitTimeSkipFromSettingLayerVolumeAdjust(int waitTimeSkipMs)
         {
-            userSettings.SkipWaitTime = waitTimeSkipMs;
+            _userSettings.SkipWaitTime = waitTimeSkipMs;
         }
         public void SetWaitTimeAutoFromSettingLayerVolumeAdjust(int waitTimeAutoMs)
         {
-            userSettings.AutoWaitTime = waitTimeAutoMs;
+            _userSettings.AutoWaitTime = waitTimeAutoMs;
         }
         public void SetVolumeMasterFromSettingLayerVolumeAdjust(int volumeRate)
         {
-            userSettings.VolumeMaster = volumeRate;
+            _userSettings.VolumeMaster = volumeRate;
         }
         public void SetVolumeBGMFromSettingLayerVolumeAdjust(int volumeRate)
         {
-            userSettings.VolumeBGM = volumeRate;
+            _userSettings.VolumeBGM = volumeRate;
         }
         public void SetVolumeSEFromSettingLayerVolumeAdjust(int volumeRate)
         {
-            userSettings.VolumeSE = volumeRate;
+            _userSettings.VolumeSE = volumeRate;
         }
 
         // 設定画面の退出時にセーブする
         // セーブデータをjsonファイルに保存する
         public void SaveUserSettingsToLocalStorage()
         {
-            JsonSaveLoader<UserSettings>.Save(userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
+            JsonSaveLoader<UserSettings>.Save(_userSettings, Settings.SAVE_FILE_NAME_USER_SETTINGS);
         }
 
         // ================================================
@@ -354,11 +369,11 @@ namespace FThingSoftware.InFunityScript
             // pathから画像データを読みだしてspriteを返す
             Sprite screenshotSprite = null;
 
-            string screenshotFileName = rebuildDatas.Each[slotnum].ScreenShotFile;
+            string screenshotFileName = _rebuildDatas.Each[slotnum].ScreenShotFile;
             // スクリーンショットが未定義の時はアクセスしないでnullを返却する
             if (screenshotFileName == "") return screenshotSprite;
 
-            string filePath = $"{Application.persistentDataPath}/{Settings.SCREENSHOT_SAVE_FOLDER}/{rebuildDatas.Each[slotnum].ScreenShotFile}";
+            string filePath = $"{Application.persistentDataPath}/{Settings.SCREENSHOT_SAVE_FOLDER}/{_rebuildDatas.Each[slotnum].ScreenShotFile}";
             try
             {
                 var rawData = System.IO.File.ReadAllBytes(filePath);
@@ -396,7 +411,7 @@ namespace FThingSoftware.InFunityScript
             if (slotnum >= Settings.SAVE_DATA_NUM) return null;
 
             // データの読み出し
-            string mainText = rebuildDatas.Each[slotnum].TextMain;
+            string mainText = _rebuildDatas.Each[slotnum].TextMain;
 
             // 指定文字数以下の場合はそのまま返す
             if (mainText.Length <= Settings.SAVE_SLOT_MAIN_TEXT_MAX_NUM_FOR_SLOT) return mainText;
@@ -416,7 +431,7 @@ namespace FThingSoftware.InFunityScript
             if (slotnum >= Settings.SAVE_DATA_NUM) return null;
 
             // データの読み出し
-            string mainText = rebuildDatas.Each[slotnum].TextMain;
+            string mainText = _rebuildDatas.Each[slotnum].TextMain;
 
             // 指定文字数以下の場合はそのまま返す
             if (mainText.Length <= Settings.SAVE_SLOT_MAIN_TEXT_MAX_NUM_FOR_DETAIL) return mainText;
@@ -434,21 +449,21 @@ namespace FThingSoftware.InFunityScript
         {
             // アクセスしたスロット番号が指定値を超える場合には何もしない
             if (slotnum >= Settings.SAVE_DATA_NUM) return null;
-            return rebuildDatas.Each[slotnum].Date;
+            return _rebuildDatas.Each[slotnum].Date;
         }
         // Chapterを返す
         public string GetChapterFromSlotNum(int slotnum)
         {
             // アクセスしたスロット番号が指定値を超える場合には何もしない
             if (slotnum < 0 && slotnum >= Settings.SAVE_DATA_NUM) return "";
-            return rebuildDatas.Each[slotnum].Chapter;
+            return _rebuildDatas.Each[slotnum].Chapter;
         }
 
         // デバッグ用
         // Unityエディター上で、シナリオファイルをデバッグする際に無限にcallstackが増えてしまうので、実行前にcallstackを消す
         public void ResetCurrentCallStack()
         {
-            scenarioCallStacks.Each[0].scenarioDatas.Clear();
+            _scenarioCallStacks.Each[0].scenarioDatas.Clear();
         }
 
         // TitleシーンからNewGameをするときに
@@ -456,10 +471,10 @@ namespace FThingSoftware.InFunityScript
         public void ResetDataForContinue()
         {
             // 初期化
-            scenarioCallStacks.Each[0].Num = 0;
-            scenarioCallStacks.Each[0].scenarioDatas.Clear();
+            _scenarioCallStacks.Each[0].Num = 0;
+            _scenarioCallStacks.Each[0].scenarioDatas.Clear();
             // 初期化
-            rebuildDatas.Each[0] = new RebuildData();
+            _rebuildDatas.Each[0] = new RebuildData();
         }
     }
 }

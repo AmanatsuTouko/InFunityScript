@@ -13,8 +13,7 @@ namespace FThingSoftware.InFunityScript
         private void Start()
         {
             // Titleシーンから移行したときの、モードフラグをOFFにしておく
-            Settings.LoadFromTitleScene = false;
-            Settings.NewGameFromTitleScene = false;
+            Settings.LoadMode = Settings.LOAD_MODE.UNDEFINED;
         }
 
         // Titleシーンのボタンから呼び出す関数一覧
@@ -24,7 +23,7 @@ namespace FThingSoftware.InFunityScript
             // SaveDataHolderの0番目のデータのRebuildData、CallStacksを消す
             SaveDataHolder.I.ResetDataForContinue();
             // NewGameフラグをONにする
-            Settings.NewGameFromTitleScene = true;
+            Settings.LoadMode = Settings.LOAD_MODE.NEW_GAME;
             // シーンを移行する
             SceneManager.LoadScene(Settings.SCENE_MAIN);
         }

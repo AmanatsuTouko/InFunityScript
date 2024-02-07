@@ -53,23 +53,29 @@ namespace FThingSoftware.InFunityScript
         {
             // Text,Skip,Auto時の待ち時間をセーブデータから反映させる
             UpdateWaitTimeFromSaveData();
+
             // シナリオのスタート
-            // TitleシーンからLoadしてきた際
-            if (Settings.LoadFromTitleScene){
-                SaveDataHolder.I.StartScenarioFromTitleLoad();
-            }
-            // 初めからを選択してTitleシーンからプレイしたとき
-            else if(Settings.NewGameFromTitleScene){
-                StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
-            }
-            // それ以外の時
-            // 主にUnityエディターからデバッグ用に実行した時
-            else{
-# if UNITY_EDITOR
-                // callStackをリセットしてからスタート
-                SaveDataHolder.I.ResetCurrentCallStack();
-                StartScenario(_debugScenario, _debugScenarioPage);                
-# endif
+            switch (Settings.LoadMode)
+            {
+                // TitleシーンからLoadしてきた際
+                case Settings.LOAD_MODE.LOAD:
+                    SaveDataHolder.I.StartScenarioFromTitleLoad();
+                    break;
+
+                // 初めからを選択してTitleシーンからプレイしたとき
+                case Settings.LOAD_MODE.NEW_GAME:
+                    StartScenario(Settings.FIRSTLOAD_SCENARIO_ON_NEWGAME, 0);
+                    break;
+
+                // それ以外の時
+                default:
+                // 主にUnityエディターからデバッグ用に実行した時
+                # if UNITY_EDITOR
+                    // callStackをリセットしてからスタート
+                    SaveDataHolder.I.ResetCurrentCallStack();
+                    StartScenario(_debugScenario, _debugScenarioPage);
+                # endif
+                    break;
             }
         }
 
