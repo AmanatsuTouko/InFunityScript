@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FThingSoftware.InFunityScript
 {
@@ -8,7 +9,7 @@ namespace FThingSoftware.InFunityScript
     {
         public List<DeveloperDefineVariable> Each = new List<DeveloperDefineVariable>() { };
     }
-
+   
     [Serializable]
     public class DeveloperDefineVariable
     {

@@ -1,7 +1,5 @@
 using FThingSoftware.InFunityScript;
 using Cysharp.Threading.Tasks;
-using System.Reflection.Emit;
-using System.Diagnostics;
 
 public class SelectButtonTest : Scenario
 {
@@ -16,7 +14,6 @@ public class SelectButtonTest : Scenario
     {
         // ここからシナリオ命令を記述
         await chara_show<maho>(maho.normal, reverse:true);
-        await chara_face<maho>(maho.angry);
 
         await text("真帆", "ね！駅前にできたクレープ屋さん、一緒に行かない？");
 
