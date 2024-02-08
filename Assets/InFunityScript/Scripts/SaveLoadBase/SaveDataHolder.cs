@@ -494,7 +494,7 @@ namespace FThingSoftware.InFunityScript
 
         // Scenarioファイルからユーザー定義変数を書き換えできるようにする
         public DeveloperDefineVariable DevDefVariable{
-            get 
+            get
             {
                 return _developerVariables.Each[0];
             }

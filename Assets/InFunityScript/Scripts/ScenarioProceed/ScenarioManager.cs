@@ -303,6 +303,9 @@ namespace FThingSoftware.InFunityScript
                 // ラベル探索フラグをONにする
                 sb.isGettingLabel = true;
 
+                // ラベル探索フラグをONにしたことを同期をとるために1フレーム待機する
+                await UniTask.Yield();
+
                 // 新しいシナリオコンポーネントの追加
                 labelGetScenarioComponent = (Scenario)gameObject.AddComponent(scenarioClass);
                 // ScenarioクラスからScenarioManager/ScenarioCommandsを参照するための参照付け
@@ -341,6 +344,7 @@ namespace FThingSoftware.InFunityScript
                 Debug.LogError($"Error: Scene File {scenarioName} is not found.");
             }
         }
+
         // 何秒か待機してLabelPageが更新されなかった際には、エラーを出して停止する
         async UniTask ErrorHundle(string labelName, string scenarioName)
         {

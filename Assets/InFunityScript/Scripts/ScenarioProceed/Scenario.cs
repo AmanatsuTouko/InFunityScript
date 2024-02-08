@@ -112,7 +112,6 @@ namespace FThingSoftware.InFunityScript
 
         public async UniTask select_button_show<Scenario>(string text, string labelName = "")
         {
-            // if (!sm.isDoTask()) return;
             if (!sm.isDoTaskOfSelectButton()) return;
             string scenarioName = typeof(Scenario).ToString();
             await nowait(sc.SelectButtonShow(text, scenarioName, labelName));
@@ -120,7 +119,6 @@ namespace FThingSoftware.InFunityScript
 
         public async UniTask select_button_waitclick()
         {
-            // if (!sm.isDoTask()) return;
             if (!sm.isDoTaskOfSelectButton()) return;
             await nowait(sc.SelectButtonWaitClick());
         }
