@@ -12,6 +12,12 @@ namespace FThingSoftware.InFunityScript
         [SerializeField] GameObject _characterPrefab;
         public GameObject CharaLayer;
 
+        private ScenarioBooleans _scenarioBooleans;
+        private void Awake()
+        {
+            _scenarioBooleans = GetComponent<ScenarioBooleans>();
+        }
+
         public async UniTask CharaShow(string charaName, string[] facetype, float time, float posx = 0, float posy = 0, bool reverse = false)
         {
             // 既に同じキャラクターがCharaLayerにある場合には実行しない
@@ -74,6 +80,9 @@ namespace FThingSoftware.InFunityScript
         // n秒かけて透明度を0->255にする
         private async UniTask AlphaIncreaceRefTime(Image image, float time)
         {
+            // スキップ中は実行時間を0とする
+            if(_scenarioBooleans.isSkipping) time = 0;
+
             float alpha = 0;
             while (true)
             {
@@ -92,6 +101,9 @@ namespace FThingSoftware.InFunityScript
         // n秒かけて透明度を255->0にする
         private async UniTask AlphaDecreaceRefTime(Image image, float time)
         {
+            // スキップ中は実行時間を0とする
+            if(_scenarioBooleans.isSkipping) time = 0;
+
             float alpha = 255;
             while (true)
             {
@@ -109,6 +121,9 @@ namespace FThingSoftware.InFunityScript
 
         private async UniTask AlphaDecreaceRefTime(List<Image> images, float time)
         {
+            // スキップ中は実行時間を0とする
+            if(_scenarioBooleans.isSkipping) time = 0;
+
             float alpha = 255;
             while (true)
             {
@@ -399,6 +414,9 @@ namespace FThingSoftware.InFunityScript
 
             // 累積値
             float sumRot = 0;
+
+            // スキップ中は実行時間を0とする
+            if(_scenarioBooleans.isSkipping) time = 0;
             
             while (true)
             {
@@ -438,23 +456,20 @@ namespace FThingSoftware.InFunityScript
             // イージング関数の取得
             var Ease = Easing.GetEasing(easing);
 
+            // 移動先の座標
+            Vector2 destinationPos = new Vector2(posx, posy);
+
             // 現在点と移動先の設定
             Vector2 startPos = transform.localPosition;
-            Vector2 endPos;
+            // 絶対座標か相対座標か
+            Vector2 endPos = absolute ? destinationPos : startPos + destinationPos;
+            // 目標地点との差
+            Vector2 diffPos = endPos - startPos;
 
-            // 絶対座標の時
-            if(absolute)
-            {
-                endPos = new Vector2(posx, posy);
-            }
-            // 相対座標の時
-            else
-            {
-                endPos = startPos + new Vector2(posx, posy);
-            }
+            // スキップ中は実行時間を0とする
+            if(_scenarioBooleans.isSkipping) time = 0;
 
             // N秒かけて移動させる
-            Vector2 subPos = endPos - startPos;
             float e = 0;
             while(true)
             {
@@ -465,9 +480,9 @@ namespace FThingSoftware.InFunityScript
                     transform.localPosition = endPos;
                     break;
                 }
-                Vector2 nextPos = startPos + Ease(e) * subPos;
+                Vector2 nextPos = startPos + Ease(e) * diffPos;
                 transform.localPosition = nextPos;
-            }       
+            }
         }
     }
 }
