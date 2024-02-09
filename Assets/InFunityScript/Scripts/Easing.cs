@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FThingSoftware.InFunityScript
 {
-    public class Easing : MonoBehaviour
+    public class Easing
     {
         public enum Ease
         {
