@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+﻿using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 namespace FThingSoftware.InFunityScript
@@ -17,7 +14,9 @@ namespace FThingSoftware.InFunityScript
         public ScenarioCommandSelectButton scSelectButton {get; private set;}
         // キャラクター画像の表示や移動を行う
         public ScenarioCommandCharacter scChara { get; private set; }
-        
+        // SEやBGMの再生と停止を行う
+        public ScenarioCommandAudio scAudio { get; private set; }
+
         private void Awake()
         {
             sm = GetComponent<ScenarioManager>();
@@ -25,6 +24,7 @@ namespace FThingSoftware.InFunityScript
             scText = GetComponent<ScenarioCommandText>();
             scSelectButton = GetComponent<ScenarioCommandSelectButton>();
             scChara = GetComponent<ScenarioCommandCharacter>();
+            scAudio = GetComponent<ScenarioCommandAudio>();
         }
 
         // Text
@@ -77,6 +77,12 @@ namespace FThingSoftware.InFunityScript
         public async UniTask CharaMove(string charaName, float time, float posx, float posy, Easing.Ease easing, bool absolute)
         {
             await scChara.CharaMove(charaName, time, posx, posy, easing, absolute);
+        }
+
+        // Audio
+        public async UniTask AudioPlaySE(string seName, int volume, bool waitComplete, float startSec, float endSec, Easing.Ease fadeEasing, float fadeSec)
+        {
+            await scAudio.AudioPlaySE(seName, volume, waitComplete, startSec, endSec, fadeEasing, fadeSec);
         }
     }
 }

@@ -52,6 +52,9 @@ namespace FThingSoftware.InFunityScript
 
         public const string SCENE_TITLE = "Title";
 
+        // Resourcesから読みだすパス
+        public const string RESOURCES_PATH_SE = "SE/";
+
         /// <summary>
         /// ゲーム進行状態を保存する
         /// </summary>

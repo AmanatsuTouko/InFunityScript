@@ -215,5 +215,17 @@ namespace FThingSoftware.InFunityScript
             string charaName = typeof(Character).ToString();
             await nowait(sc.CharaMove(charaName, time, posx, posy, easing, absolute));
         }
+
+        // ==================================================================
+        // BGM, SEコマンド一覧
+        // ==================================================================
+
+        public async UniTask se_play(string seName, int volume, bool waitComplete = false, float startSec = 0, float endSec = 0, Easing.Ease fadeEasing = Easing.Ease.None, float fadeSec = 0)
+        {
+            if (!sm.isDoTaskOfSelectButton()) return;
+            await nowait(sc.AudioPlaySE(seName, volume, waitComplete, startSec, endSec, fadeEasing, fadeSec));
+        }
+
+
     }
 }

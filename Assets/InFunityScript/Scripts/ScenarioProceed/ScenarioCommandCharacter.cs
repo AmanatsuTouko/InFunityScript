@@ -453,6 +453,9 @@ namespace FThingSoftware.InFunityScript
             GameObject charaObj = CharaLayer.transform.Find(charaName).gameObject;
             var transform = charaObj.transform;
 
+            // イージング関数がNoneの時は、安全のためLinerに変更する
+            if(easing == Easing.Ease.None) easing = Easing.Ease.Linear;
+
             // イージング関数の取得
             var Ease = Easing.GetEasing(easing);
 

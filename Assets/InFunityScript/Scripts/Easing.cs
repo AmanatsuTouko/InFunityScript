@@ -59,8 +59,12 @@ namespace FThingSoftware.InFunityScript
             // バウンド
             InBounce,
             OutBounce,
-            InOutBounce
+            InOutBounce,
             // 緩急 強 ↓
+
+            // イージングなし
+            // 音量調整で、イージングしない定義(最初から音量マックス)が必要なのでここに定義する
+            None,
         }
 
         // Func<in T, out TResult>(T arg);
@@ -141,6 +145,14 @@ namespace FThingSoftware.InFunityScript
                     return EaseOutBounce;
                 case Ease.InOutBounce:
                     return EaseInOutBounce;
+
+                case Ease.None:
+                    // Noneは本来想定しない使い方なので、警告を出す
+                    Debug.LogError(
+                        $"GetEasing(Easing.Ease.None) is unexpected call.\n"
+                        + $"Please modify to use GetEasing(Easing.Ease.Linear)."
+                    );
+                    return None;
 
                 default:
                     return Linear;
@@ -352,6 +364,12 @@ namespace FThingSoftware.InFunityScript
             return x < 0.5f
             ? (1.0f - EaseOutBounce(1.0f - 2.0f * x)) / 2.0f
             : (1.0f + EaseOutBounce(2.0f * x - 1.0f)) / 2.0f;
+        }
+
+        // 未定義の場合は安全のため線形増加させる
+        public static float None(float x)
+        {
+            return x;
         }
     }
 }

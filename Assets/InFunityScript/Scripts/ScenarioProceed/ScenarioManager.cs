@@ -182,6 +182,7 @@ namespace FThingSoftware.InFunityScript
             }
         }
 
+        // 実行を保存しないコマンド
         // 選択肢ボタン関連
         public bool isDoTaskOfSelectButton()
         {
