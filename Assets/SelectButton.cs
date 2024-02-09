@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SelectButton : MonoBehaviour
+namespace FThingSoftware.InFunityScript
 {
-    // 選択肢に表示する文面
-    public string Text = "";
-    // ジャンプ先のシナリオファイル名
-    public string ScenarioName = "";
-    // ジャンプ先のラベル名
-    public string LabelName = "";
-
-    [SerializeField] TextMeshProUGUI _textUI;
-
-    public void Init(string text, string scenarioName, string labelName)
+    public class SelectButton : MonoBehaviour
     {
-        _textUI.text = text;
-        this.Text = text;
-        this.ScenarioName = scenarioName;
-        this.LabelName = labelName;
+        // 選択肢に表示する文面
+        public string Text = "";
+        // ジャンプ先のシナリオファイル名
+        public string ScenarioName = "";
+        // ジャンプ先のラベル名
+        public string LabelName = "";
+
+        [SerializeField] TextMeshProUGUI _textUI;
+
+        public void Init(string text, string scenarioName, string labelName)
+        {
+            _textUI.text = text;
+            this.Text = text;
+            this.ScenarioName = scenarioName;
+            this.LabelName = labelName;
+        }
     }
 }

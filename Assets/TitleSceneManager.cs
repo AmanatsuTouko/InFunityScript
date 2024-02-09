@@ -4,34 +4,37 @@ using FThingSoftware.InFunityScript;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TitleSceneManager : MonoBehaviour
+namespace FThingSoftware.InFunityScript
 {
-    [SerializeField] GameObject _loadLayer;
-
-    [Header("BottomButtonsOnLoadLayer")]
-    [SerializeField] GameObject _bottomButtonsParent;
-    [SerializeField] GameObject _backButton;
-
-    void Awake()
+    public class TitleSceneManager : MonoBehaviour
     {
-        HideButtonsExceptBackButton();
-        _backButton.GetComponent<Button>().onClick.AddListener( () => OnClickBackButton());
-    }
+        [SerializeField] GameObject _loadLayer;
 
-    // BackButtonのみを表示する
-    private void HideButtonsExceptBackButton()
-    {
-        foreach(Transform obj in _bottomButtonsParent.transform)
+        [Header("BottomButtonsOnLoadLayer")]
+        [SerializeField] GameObject _bottomButtonsParent;
+        [SerializeField] GameObject _backButton;
+
+        void Awake()
         {
-            obj.gameObject.SetActive(false);
+            HideButtonsExceptBackButton();
+            _backButton.GetComponent<Button>().onClick.AddListener( () => OnClickBackButton());
         }
-        _backButton.SetActive(true);
-    }
 
-    // BackButtonをクリックしたときの挙動を設定する
-    private void OnClickBackButton()
-    {
-        // レイヤーを非表示にする
-        _loadLayer.SetActive(false);
+        // BackButtonのみを表示する
+        private void HideButtonsExceptBackButton()
+        {
+            foreach(Transform obj in _bottomButtonsParent.transform)
+            {
+                obj.gameObject.SetActive(false);
+            }
+            _backButton.SetActive(true);
+        }
+
+        // BackButtonをクリックしたときの挙動を設定する
+        private void OnClickBackButton()
+        {
+            // レイヤーを非表示にする
+            _loadLayer.SetActive(false);
+        }
     }
 }
