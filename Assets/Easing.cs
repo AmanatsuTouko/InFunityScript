@@ -324,19 +324,26 @@ namespace FThingSoftware.InFunityScript
 
         public static float EaseOutBounce(float x)
         {
-            float n1 = 7.5625f;
-            float d1 = 2.75f;
-            if (x < 1.0f / d1) {
-                return n1 * x * x;
-            } else if (x < 2.0f / d1) {
-                x -= 1.5f;
-                return n1 * (x / d1) * x + 0.75f;
-            } else if (x < 2.5 / d1) {
-                x -= 2.25f;
-                return n1 * (x / d1) * x + 0.9375f;
-            } else {
-                x -= 2.625f;
-                return n1 * (x / d1) * x + 0.984375f;
+            float a = 7.5625f;
+            float b = 2.75f;
+            if (x < 1.0f / b) 
+            {
+                return a * x * x;
+            }
+            else if (x < 2.0f / b) 
+            {
+                float c = (x - 1.5f / b);
+                return a * c * c + 0.75f;
+            }
+            else if (x < 2.5 / b) 
+            {
+                float c = (x - 2.25f / b);
+                return a * c * c + 0.9375f;
+            }
+            else 
+            {
+                float c = (x - 2.625f / b);
+                return a * c * c + 0.984375f;
             }
         }
 

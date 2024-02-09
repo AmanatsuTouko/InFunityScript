@@ -69,8 +69,14 @@ namespace FThingSoftware.InFunityScript
             await scChara.CharaHideAll(time);
         }
 
-        public async UniTask CharaReverse(string charaName, bool reverse, float time, bool clockwiseRotation){
+        public async UniTask CharaReverse(string charaName, bool reverse, float time, bool clockwiseRotation)
+        {
             await scChara.CharaReverse(charaName, reverse, time, clockwiseRotation);
+        }
+
+        public async UniTask CharaMove(string charaName, float time, float posx, float posy, Easing.Ease easing, bool absolute)
+        {
+            await scChara.CharaMove(charaName, time, posx, posy, easing, absolute);
         }
     }
 }

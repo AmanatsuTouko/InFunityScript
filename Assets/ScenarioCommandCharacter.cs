@@ -55,13 +55,14 @@ namespace FThingSoftware.InFunityScript
             if (reverse) await CharaReverse(charaName, reverse, time, true);
 
             // 座標の指定があった場合
-            if (!(posx == 0 && posy == 0))
+            if (posx != 0 || posy != 0)
             {
                 Transform transform = prefab.GetComponent<Transform>();
-                transform.localPosition = new Vector3(posx, posy, 0);
 
-                // RectTransform transform = prefab.GetComponent<RectTransform>();
-                // transform.anchoredPosition += new Vector2(posx, posy);
+                transform.localPosition = new Vector2(
+                    posx == 0 ? character.Pos.x : posx, 
+                    posy == 0 ? character.Pos.y : posy
+                );
             }
 
             // n秒かけて透明度を戻して見えるようにする
@@ -417,6 +418,56 @@ namespace FThingSoftware.InFunityScript
 
                 targetTransform.localRotation = Quaternion.Euler(rot.x, rotY, rot.z);
             }
+        }
+
+        public async UniTask CharaMove(string charaName, float time, float posx, float posy, Easing.Ease easing, bool absolute)
+        {
+            // キャラクターが居ない場合には何もしない
+            if (!IsAlreadyExistChara(charaName))
+            {
+                Debug.LogError(
+                    $"Error: chara_move<{charaName}>()\n" +
+                    $"Character {charaName} is not exist. Can't move {charaName} Character Object.");
+                return;
+            }
+
+            // キャラクターをCanvasから探す
+            GameObject charaObj = CharaLayer.transform.Find(charaName).gameObject;
+            var transform = charaObj.transform;
+
+            // イージング関数の取得
+            var Ease = Easing.GetEasing(easing);
+
+            // 現在点と移動先の設定
+            Vector2 startPos = transform.localPosition;
+            Vector2 endPos;
+
+            // 絶対座標の時
+            if(absolute)
+            {
+                endPos = new Vector2(posx, posy);
+            }
+            // 相対座標の時
+            else
+            {
+                endPos = startPos + new Vector2(posx, posy);
+            }
+
+            // N秒かけて移動させる
+            Vector2 subPos = endPos - startPos;
+            float e = 0;
+            while(true)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update);
+                e += Time.deltaTime / time;
+                if(e >= 1.0f)
+                {
+                    transform.localPosition = endPos;
+                    break;
+                }
+                Vector2 nextPos = startPos + Ease(e) * subPos;
+                transform.localPosition = nextPos;
+            }       
         }
     }
 }

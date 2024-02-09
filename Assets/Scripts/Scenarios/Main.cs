@@ -7,6 +7,8 @@ public class Main : Scenario
     {
         await sys_label("start");
 
+        await sys_call<TestEasing>();
+        
         await sys_call<SelectButtonTest>();
 
         await sys_call<RunMelos_01>();

@@ -208,5 +208,12 @@ namespace FThingSoftware.InFunityScript
 
             await nowait(sc.CharaReverse(charaName, reverse, time, clockwiseRotation));
         }
+
+        public async UniTask chara_move<Character>(float time = 1.0f, float posx = 0, float posy = 0, Easing.Ease easing = Easing.Ease.OutSine, bool absolute = false)
+        {
+            if (!sm.isDoTask()) return;
+            string charaName = typeof(Character).ToString();
+            await nowait(sc.CharaMove(charaName, time, posx, posy, easing, absolute));
+        }
     }
 }
