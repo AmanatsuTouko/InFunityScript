@@ -40,13 +40,13 @@ namespace FThingSoftware.InFunityScript
         public void SetSliderValueFromSaveDataHolder()
         {
             // テキスト進行に用いるパラメータの代入
-            textSpeedSlider.value    = SaveDataHolder.I.GetTextSpeedToSettingLayerVolumeAdjust();
-            waitTimeAutoSlider.value = SaveDataHolder.I.GetWaitTimeAutoToSettingLayerVolumeAdjust();
-            waitTimeSkipSlider.value = SaveDataHolder.I.GetWaitTimeSkipToSettingLayerVolumeAdjust();
+            textSpeedSlider.value    = SaveDataHolder.I.TextSpeed;
+            waitTimeAutoSlider.value = SaveDataHolder.I.WaitTimeAuto;
+            waitTimeSkipSlider.value = SaveDataHolder.I.WaitTimeSkip;
             // 音量パラメータの代入
-            volumeMasterSlider.value = SaveDataHolder.I.GetVolumeMasterToSettingLayerVolumeAdjust();
-            volumeBGMSlider.value    = SaveDataHolder.I.GetVolumeBGMToSettingLayerVolumeAdjust();
-            volumeSESlider.value     = SaveDataHolder.I.GetVolumeSEToSettingLayerVolumeAdjust();
+            volumeMasterSlider.value = SaveDataHolder.I.VolumeMaster;
+            volumeBGMSlider.value    = SaveDataHolder.I.VolumeBGM;
+            volumeSESlider.value     = SaveDataHolder.I.VolumeSE;
             // パラメータ更新のフラグをオフにする
             isUpdateParam = false;
         }
@@ -66,38 +66,38 @@ namespace FThingSoftware.InFunityScript
         // スライダーの値からセーブデータクラスを更新し、表示している数値を更新する
         public void UpdateTextSpeedFromSlider()
         {
-            SaveDataHolder.I.SetTextSpeedFromSettingLayerVolumeAdjust((int)textSpeedSlider.value);
+            SaveDataHolder.I.TextSpeed = (int)textSpeedSlider.value;
             // 実際は1~20の値だが、他パラメータとの兼ね合いで1~100の値として表示する
             textSpeedText.text = (textSpeedSlider.value * 5).ToString();
             isUpdateParam = true;
         }
         public void UpdateWaitTimeAutoFromSlider()
         {
-            SaveDataHolder.I.SetWaitTimeAutoFromSettingLayerVolumeAdjust((int)waitTimeAutoSlider.value);
+            SaveDataHolder.I.WaitTimeAuto = (int)waitTimeAutoSlider.value;
             waitTimeAutoText.text = waitTimeAutoSlider.value.ToString();
             isUpdateParam = true;
         }
         public void UpdateWaitTimeSkipFromSlider()
         {
-            SaveDataHolder.I.SetWaitTimeSkipFromSettingLayerVolumeAdjust((int)waitTimeSkipSlider.value);
+            SaveDataHolder.I.WaitTimeSkip = (int)waitTimeSkipSlider.value;
             waitTimeSkipText.text = waitTimeSkipSlider.value.ToString();
             isUpdateParam = true;
         }
         public void UpdateVolumeMasterFromSlider()
         {
-            SaveDataHolder.I.SetVolumeMasterFromSettingLayerVolumeAdjust((int)volumeMasterSlider.value);
+            SaveDataHolder.I.VolumeMaster = (int)volumeMasterSlider.value;
             volumeMasterText.text = volumeMasterSlider.value.ToString();
             isUpdateParam = true;
         }
         public void UpdateVolumeBGMFromSlider()
         {
-            SaveDataHolder.I.SetVolumeBGMFromSettingLayerVolumeAdjust((int)volumeBGMSlider.value);
+            SaveDataHolder.I.VolumeBGM = (int)volumeBGMSlider.value;
             volumeBGMText.text = volumeBGMSlider.value.ToString();
             isUpdateParam = true;
         }
         public void UpdateVolumeSEFromSlider()
         {
-            SaveDataHolder.I.SetVolumeSEFromSettingLayerVolumeAdjust((int)volumeSESlider.value);
+            SaveDataHolder.I.VolumeSE = (int)volumeSESlider.value;
             volumeSEText.text = volumeSESlider.value.ToString();
             isUpdateParam = true;
         }

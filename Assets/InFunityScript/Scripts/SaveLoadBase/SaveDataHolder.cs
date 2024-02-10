@@ -312,57 +312,38 @@ namespace FThingSoftware.InFunityScript
         }
 
         // ================================================
-        // SettingLayerVolumeAdjustから呼び出して使う関数群
+        // テキストスピードなどのユーザ設定パラメータの getter, setter
         // ================================================
-        // Get
-        public int GetTextSpeedToSettingLayerVolumeAdjust()
+
+        public int TextSpeed
         {
-            return _userSettings.TextSpeed;
+            get { return _userSettings.TextSpeed; }
+            set { _userSettings.TextSpeed = value; }
         }
-        public int GetWaitTimeSkipToSettingLayerVolumeAdjust()
+        public int WaitTimeSkip
         {
-            return _userSettings.SkipWaitTime;
+            get { return _userSettings.SkipWaitTime; }
+            set { _userSettings.SkipWaitTime = value; }
         }
-        public int GetWaitTimeAutoToSettingLayerVolumeAdjust()
+        public int WaitTimeAuto
         {
-            return _userSettings.AutoWaitTime;
+            get { return _userSettings.AutoWaitTime; }
+            set { _userSettings.AutoWaitTime = value; }
         }
-        public int GetVolumeMasterToSettingLayerVolumeAdjust()
+        public int VolumeMaster
         {
-            return _userSettings.VolumeMaster;
+            get { return _userSettings.VolumeMaster; }
+            set { _userSettings.VolumeMaster = value; }
         }
-        public int GetVolumeBGMToSettingLayerVolumeAdjust()
+        public int VolumeBGM
         {
-            return _userSettings.VolumeBGM;
+            get { return _userSettings.VolumeBGM; }
+            set { _userSettings.VolumeBGM = value; }
         }
-        public int GetVolumeSEToSettingLayerVolumeAdjust()
+        public int VolumeSE
         {
-            return _userSettings.VolumeSE;
-        }
-        // Set
-        public void SetTextSpeedFromSettingLayerVolumeAdjust(int textSpeedFrame)
-        {
-            _userSettings.TextSpeed = textSpeedFrame;
-        }
-        public void SetWaitTimeSkipFromSettingLayerVolumeAdjust(int waitTimeSkipMs)
-        {
-            _userSettings.SkipWaitTime = waitTimeSkipMs;
-        }
-        public void SetWaitTimeAutoFromSettingLayerVolumeAdjust(int waitTimeAutoMs)
-        {
-            _userSettings.AutoWaitTime = waitTimeAutoMs;
-        }
-        public void SetVolumeMasterFromSettingLayerVolumeAdjust(int volumeRate)
-        {
-            _userSettings.VolumeMaster = volumeRate;
-        }
-        public void SetVolumeBGMFromSettingLayerVolumeAdjust(int volumeRate)
-        {
-            _userSettings.VolumeBGM = volumeRate;
-        }
-        public void SetVolumeSEFromSettingLayerVolumeAdjust(int volumeRate)
-        {
-            _userSettings.VolumeSE = volumeRate;
+            get { return _userSettings.VolumeSE; }
+            set { _userSettings.VolumeSE = value; }
         }
 
         // 設定画面の退出時にセーブする
