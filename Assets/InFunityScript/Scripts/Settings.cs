@@ -55,6 +55,9 @@ namespace FThingSoftware.InFunityScript
         // Resourcesから読みだすパス
         public const string RESOURCES_PATH_SE = "SE/";
 
+        // SEの同時再生数
+        public const int SE_MAX_NUM = 10;
+
         /// <summary>
         /// ゲーム進行状態を保存する
         /// </summary>
